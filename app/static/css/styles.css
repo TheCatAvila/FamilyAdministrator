@@ -1,7 +1,13 @@
+@import url('variables.css');
+
+/* GENERALES */
 body {
     display: flex;
     height: 100vh;
+    background-color: var(--light-gray);
 }
+
+/* SIDEBAR */
 .sidebar {
     width: 250px;
     height: 100vh;
@@ -21,22 +27,14 @@ body {
     background-color: #495057;
 }
 
+/* COLUMNAS Y ROWS */
 .row {
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos bajen de línea si no caben */
-    gap: 10px; /* Espacio entre elementos */
-    justify-content: center; /* Centra los divs si hay espacio */
-    margin-left: 250px;
-    padding-top: 10px;
-}
-
-.card {
-    width: 100%; /* Ajusta el ancho para que quepan 3 por fila */
-    min-width: 150px; /* Evita que se hagan demasiado pequeños */
-    background-color: lightblue;
-    text-align: center;
-    padding: 20px;
-    border: 1px solid blue;
+    flex-wrap: wrap;
+    gap: 20px;
+    flex-grow: 1;
+    margin-left: 250px ;
+    padding: 10px;
 }
 
 @media (max-width: 768px) {
@@ -58,11 +56,5 @@ body {
 
     .row {
         margin-left: 100px; /* Respeta el nuevo tamaño reducido de la sidebar */
-    }
-}
-
-@media (max-width: 480px) {
-    .card {
-        width: 100%; /* 1 por fila en pantallas pequeñas */
     }
 }

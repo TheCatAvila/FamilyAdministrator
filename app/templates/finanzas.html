@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/info-card.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
 </head>
 
 <body>
@@ -24,6 +25,18 @@
 
     <!-- Contenido principal -->
     <div class="container-fluid">
+        <div class="row gx-0">
+            <div class="col">
+
+            </div>
+            <div class="col">
+                <!-- Button to Open the Modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrarEgreso">
+                    Registrar egreso
+                </button>
+            </div>
+        </div>
+
         <div class="row gx-0">
             <!-- CARD 1 -->
             <div class="col">
@@ -99,40 +112,84 @@
             </div>
         </div>
         <div class="row gx-0">
-            <!-- Button to Open the Modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                Open modal
-            </button>
+
         </div>
     </div>
 
 
-    <!-- The Modal -->
-    <div class="modal" id="myModal">
+    <!-- Modal para registrar egreso -->
+    <div class="modal" id="registrarEgreso">
         <div class="modal-dialog">
             <div class="modal-content">
+                <form id="egresoForm" action="" method="POST">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Registrar egreso</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Modal Heading</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <div class="cont-label-input">
+                            <label for="fecha">Fecha</label>
+                            <input type="date" id="fecha" required>
+                            <span class="error" id="fechaError"></span>
+                        </div>
+                        <div class="cont-label-input">
+                            <label for="categoria">Categoría</label>
+                            <select id="categoria" required>
+                                <option value="">Seleccione una opción</option>
+                                <option value="op1">Opción 1</option>
+                                <option value="op2">Opción 2</option>
+                            </select>
+                            <span class="error" id="categoriaError"></span>
+                        </div>
+                        <div class="cont-label-input">
+                            <label for="monto">Monto</label>
+                            <input type="text" id="monto" oninput="formatMonto(this)" required>
+                            <span class="error" id="montoError"></span>
+                        </div>
+                        <div class="cont-label-input">
+                            <label for="descripcion">Descripción</label>
+                            <textarea id="descripcion" required minlength="5"></textarea>
+                            <span class="error" id="descripcionError"></span>
+                        </div>
+                    </div>
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                    Modal body..
-                </div>
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Registrar</button>
+                    </div>
+                </form>
 
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                </div>
+                <style>
+                    .error {
+                        color: red;
+                        font-size: 0.875em;
+                        display: block;
+                        margin-top: 5px;
+                    }
+                </style>
 
             </div>
         </div>
     </div>
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ url_for('static', filename='js/add-egreso-form.js') }}"></script>
+    <script>
+        function formatMonto(input) {
+            // Remover caracteres que no sean números
+            let value = input.value.replace(/\D/g, "");
+
+            // Convertir a número y luego a string formateado con puntos de miles
+            let formattedValue = Number(value).toLocaleString("es-CL");
+
+            // Asignar el valor formateado al input
+            input.value = formattedValue;
+        }
+    </script>
 </body>
 
 </html>

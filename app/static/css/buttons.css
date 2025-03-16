@@ -1,0 +1,15 @@
+.cont-top-buttons{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: right;
+}
+
+.btn{
+    border-radius: 0;
+}
+
+.btn-category{
+    background-color: var(--withe);
+    color: var(--dark-gray);
+}

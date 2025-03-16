@@ -5,6 +5,7 @@ body {
     display: flex;
     height: 100vh;
     background-color: var(--light-gray);
+    padding-top: 10px;
 }
 
 /* SIDEBAR */
@@ -35,6 +36,39 @@ body {
     flex-grow: 1;
     margin-left: 250px ;
     padding: 10px;
+}
+
+.modal-content{
+    border-radius: 0;
+}
+
+.cont-top-directions{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: left;
+}
+
+.windows-name{
+    font-size: 1.5em;
+    font-weight: 500;
+    color: var(--dark-gray);
+    margin: 0;
+    padding: 0;
+}
+
+.direction-name{
+    font-size: 1.0em;
+    font-weight: 500;
+    color: var(--dark-gray);
+    margin: 0;
+    padding: 0;
+}
+
+.direction-icon{
+    font-size: 0.7em;
+    font-weight: 500;
+    color: var(--dark-gray);
 }
 
 @media (max-width: 768px) {

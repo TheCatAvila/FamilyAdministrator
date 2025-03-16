@@ -5,7 +5,13 @@ body {
     display: flex;
     height: 100vh;
     background-color: var(--light-gray);
-    padding-top: 10px;
+}
+
+/* NAVBAR */
+.navbar{
+    background-color: var(--withe);
+    color: var(--dark-gray);
+    border-bottom: 1px solid var(--gray);
 }
 
 /* SIDEBAR */
@@ -29,6 +35,10 @@ body {
 }
 
 /* COLUMNAS Y ROWS */
+.cont-main{
+    margin-top: 70px;
+}
+
 .row {
     display: flex;
     flex-wrap: wrap;

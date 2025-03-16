@@ -1,0 +1,61 @@
+h2, p, a{
+    margin: 0;
+    padding: 0;
+}
+
+p, a{
+    font-size: 0.8em;
+}
+
+/* COLUMNAS Y ROWS */
+.cont-acceder{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-card {
+    height: auto;
+    width: 500px;
+    min-width: 250px;
+    background-color: var(--withe);
+    text-align: center;
+    padding: 25px;
+    border: 1px solid var(--gray);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cont-tittle-create{
+    height: auto;
+    width: 100%;
+    padding: 0 0 15px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cont-qa{
+    display: flex;
+    flex-direction: column;
+}
+
+.info-card:hover{
+    transform: none;
+}
+
+.egresoForm{
+    height: 100%;
+    width: 100%;
+}
+
+.btn-blue{
+    border-radius: 4px;
+    width: 100%;
+    margin: 25px 0 10px 0;
+}

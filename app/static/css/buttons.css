@@ -12,4 +12,19 @@
 .btn-category{
     background-color: var(--withe);
     color: var(--dark-gray);
+    border: 1px solid var(--gray);
+}
+
+.btn-category:hover{
+    background-color: var(--gray);
+}
+
+.btn-blue{
+    background-color: var(--blue);
+    color: var(--withe);
+}
+
+.btn-blue:hover{
+    background-color: var(--dark-blue);
+    color: var(--light-gray);
 }

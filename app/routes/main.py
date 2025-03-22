@@ -11,7 +11,7 @@ def index():
 def login():
     return render_template('auth/login.html')
 
-@main.route('/register')
+@main.route('/registrar')
 def register():
     return render_template('auth/register.html')
 

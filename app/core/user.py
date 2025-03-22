@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 
 bcrypt = Bcrypt()  # Se debe inicializar en la app Flask
 
-class User:
+class User():
     def __init__(self, username: str = None, email: str = None, password: str = None):
         """
         Constructor que permite crear una instancia con los datos del usuario.

@@ -11,6 +11,10 @@ def index():
 def login():
     return render_template('auth/login.html')
 
+@main.route('/register')
+def register():
+    return render_template('auth/register.html')
+
 @main.route('/finanzas')
 def finanzas():
     return render_template('finanzas.html')

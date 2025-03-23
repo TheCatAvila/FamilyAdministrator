@@ -1,18 +1,22 @@
 import os
-
-basedir = os.path.abspath(os.path.dirname(__file__))
+from dotenv import load_dotenv
 
 class Config:
-    SECRET_KEY = os.getenv("SECRET_KEY", "clave_secreta")
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    load_dotenv()  # Carga las variables del archivo .env
 
-class DevelopmentConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", f"sqlite:///{os.path.join(basedir, 'test.db')}")
+    DB_HOST = os.getenv("DB_HOST")
+    DB_USER = os.getenv("DB_USER")
+    DB_PASSWORD = os.getenv("DB_PASSWORD")
+    DB_NAME = os.getenv("DB_NAME")
 
-class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL") 
-    
-config = {
-    "development": DevelopmentConfig,
-    "production": ProductionConfig
-}
+    @staticmethod
+    def get_db_config():
+        return {
+            'host': Config.DB_HOST,
+            'user': Config.DB_USER,
+            'password': Config.DB_PASSWORD,
+            'database': Config.DB_NAME
+        }
+
+# Obtener la configuración de la base de datos
+db_config = Config.get_db_config()

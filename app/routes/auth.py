@@ -14,6 +14,25 @@ def login():
 def register():
     return render_template('auth/register.html')
 
+@auth_routes.route("/login_user", methods=["POST"])
+def login_user():
+    if request.method == "POST":
+        # Obtener los datos del formulario
+        email = request.form["email"]
+        password = request.form["password"]
+
+        # Validar los datos del formulario
+        user_service = UserService(email, password)
+        user_service.validate_email()
+        user_service.validate_password()
+
+        # Logear al usuario
+        User(email, password).login()
+        
+        return redirect("/finanzas")  # Redirige al login después de registrar
+    
+    return render_template("register.html")  # Muestra el formulario si es GET
+
 @auth_routes.route("/register_user", methods=["POST"])
 def register_user():
     if request.method == "POST":

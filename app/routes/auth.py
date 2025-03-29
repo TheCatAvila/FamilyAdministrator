@@ -22,12 +22,11 @@ def login_user():
         password = request.form["password"]
 
         # Validar los datos del formulario
-        user_service = UserService(email, password)
+        user_service = UserService(email=email)
         user_service.validate_email()
-        user_service.validate_password()
 
         # Logear al usuario
-        User(email, password).login()
+        User(email=email, password=password).login()
         
         return redirect("/finanzas")  # Redirige al login después de registrar
     
@@ -44,7 +43,11 @@ def register_user():
         password_confirm = request.form["password_confirm"]
 
         # Validar los datos del formulario
-        user_service = UserService(name, lastname, email, password, password_confirm)
+        user_service = UserService(name=name, 
+                                   lastname=lastname, 
+                                   email=email, 
+                                   password=password, 
+                                   password_confirm=password_confirm)
         user_service.validate_all()
 
         # Registrar al usuario

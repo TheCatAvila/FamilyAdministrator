@@ -21,16 +21,16 @@
             </div>
         </div>
         
-        <form class="egresoForm" id="egresoForm" action="" method="POST">
+        <form class="egresoForm" id="egresoForm" action="/login_user" method="POST">
             <div class="cont-label-input">
-                <label for="monto">Email</label>
-                <input type="email" id="monto" required>
-                <span class="error" id="montoError"></span>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <span class="error" id="emailError"></span>
             </div>
             <div class="cont-label-input">
-                <label for="monto">Contraseña</label>
-                <input type="password" id="monto" required>
-                <span class="error" id="montoError"></span>
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" required>
+                <span class="error" id="passwordError"></span>
             </div>
             <button type="submit" class="btn btn-blue">Ingresar</button>
         </form>

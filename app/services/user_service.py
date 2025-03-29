@@ -32,8 +32,8 @@ class UserService:
         if self.password != self.password_confirm:
             raise ValueError("Las contraseñas no coinciden.")
 
-        if len(self.password) < 8:
-            raise ValueError("La contraseña debe tener al menos 8 caracteres.")
+        if len(self.password) < 6:
+            raise ValueError("La contraseña debe tener al menos 6 caracteres.")
 
     def validate_all(self):
         """Ejecuta todas las validaciones. Si alguna falla, lanza una excepción."""

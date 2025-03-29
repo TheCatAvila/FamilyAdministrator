@@ -6,7 +6,8 @@ from app.utils.security import hash_password, check_password
 bcrypt = Bcrypt()
 
 class User:
-    def __init__(self, name: str = None, lastname: str = None, email: str = None, password: str = None):
+    def __init__(self, id: int = None, name: str = None, lastname: str = None, email: str = None, password: str = None):
+        self.id = id
         self.name = name
         self.lastname = lastname
         self.email = email
@@ -24,10 +25,10 @@ class User:
                 db.execute(query, values)
                 user_result = db.fetchone()
                 if user_result and check_password(user_result['password'], self.password):
-                    print("Login exitoso")
                     session["user_id"] = user_result["id"]
+                    return True
                 else:
-                    print("Credenciales incorrectas")
+                    return False
 
     def register(self):
         """Registra al usuario usando los atributos de la instancia."""
@@ -42,8 +43,15 @@ class User:
 
             return {"success": True, "message": "Usuario registrado exitosamente."}
         
-        except mysql.connector.Error as err:
-            return {"success": False, "error": f"Error en la base de datos: {err}"}
-        
         except Exception as e:
             return {"success": False, "error": f"Error inesperado: {e}"}
+        
+    def get_login_data(self):
+        """Obtiene los datos del usuario logueado."""
+        query = "SELECT name FROM users WHERE id = %s"
+        values = (self.id,)
+        
+        with Database() as db:
+            db.execute(query, values)
+            login_data = db.fetchone()
+            return login_data

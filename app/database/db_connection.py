@@ -3,9 +3,12 @@ from config.config import db_config
 
 class Database:
     def __init__(self):
-        self.conn = mysql.connector.connect(**db_config)
-        self.cursor = self.conn.cursor(dictionary=True)
-
+        try:
+            self.conn = mysql.connector.connect(**db_config)
+            self.cursor = self.conn.cursor(dictionary=True)
+        except mysql.connector.Error as err:
+            raise Exception(f"Error al conectar con la base de datos: {err}")
+        
     def __enter__(self):
         """Permite usar la clase con 'with' para manejar la conexión automáticamente."""
         return self

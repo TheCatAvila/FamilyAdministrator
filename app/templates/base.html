@@ -28,6 +28,21 @@
         <nav class="navbar navbar-expand-sm fixed-top">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Fixed top</a>
+                <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
+                    {% if session.get('user_id') %}
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <h5 style="margin: 0;">¡Hola!, {{ user_name }}</h5>
+                            <form action="/logout" method="POST">
+                                <button type="submit" style="width: 150px; padding: 5px; background-color: #f44336; color: white; border: none; cursor: pointer; border-radius: 5px;">
+                                    Cerrar sesión
+                                </button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <a href="{{ url_for('auth_routes.login') }}" style="text-decoration: none; color: #007bff;">Ingresar</a>
+                    {% endif %}
+
+                </div>
             </div>
         </nav>
 
@@ -35,8 +50,8 @@
         <nav class="sidebar">
             <h4 class="text-center">Menú</h4>
             <a href=""></a>
-            <a href="#"><i class="bi bi-house-door"></i> <span>Inicio</span></a>
-            <a href="#"><i class="bi bi-person"></i> <span>Finanzas</span></a>
+            <a href="{{ url_for('main.index') }}"><i class="bi bi-house-door"></i> <span>Inicio</span></a>
+            <a href=" {{url_for('main.finanzas') }}"><i class="bi bi-person"></i> <span>Finanzas</span></a>
         </nav>
     </header>
     {% endblock %}

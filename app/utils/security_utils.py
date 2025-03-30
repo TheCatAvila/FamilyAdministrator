@@ -9,4 +9,3 @@ def hash_password(password: str) -> str:
 def check_password(hashed_password: str, password: str) -> bool:
     """Verifica si una contraseña coincide con su hash."""
     return bcrypt.check_password_hash(hashed_password, password)
-

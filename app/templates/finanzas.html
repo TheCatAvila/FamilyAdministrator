@@ -17,8 +17,7 @@
         </div>
         <div class="col cont-top-buttons">
             <!-- Button to Open the Modal -->
-            <button type="button" class="btn btn-category" data-bs-toggle="modal" data-bs-target="#registrarEgreso">
-                Gestionar categorías
+            <a class="btn btn-category" href="{{ url_for('main.presupuesto') }}">Gestionar presupuesto</a>
             </button>
             <!-- Button to Open the Modal -->
             <button type="button" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#registrarEgreso">
@@ -116,7 +115,7 @@
 </div>
 
 <!-- Modal para registrar egreso -->
-<div class="modal" id="registrarEgreso">
+<div class="modal fade" id="registrarEgreso">
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="egresoForm" action="" method="POST">

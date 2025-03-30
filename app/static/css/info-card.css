@@ -12,10 +12,6 @@
     transition: transform 0.3s;
 }
 
-.info-card:hover{
-    transform: scale(1.05);
-}
-
 .card-top-info{
     font-size: 1.0em;
     color: var(--dark-gray);

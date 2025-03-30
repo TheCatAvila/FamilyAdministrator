@@ -32,7 +32,7 @@ def finanzas():
 
     return render_template('finanzas.html', user_name=user_name)
 
-@main.route('/presupuesto')
+@main.route('/finanzas/presupuesto')
 def presupuesto():
 
     # Verificar si el usuario está logueado y obtener sus datos de sesión

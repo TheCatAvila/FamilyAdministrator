@@ -23,8 +23,8 @@
                 Gestionar categorías
             </button>
             <!-- Button to Open the Modal -->
-            <button type="button" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#registrarEgreso">
-                Registrar egreso
+            <button type="button" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#agregarCategoria">
+                Agregar categoría
             </button>
         </div>
     </div>
@@ -105,33 +105,86 @@
     </div>
     <div class="row gx-0">
         <div class="col">
+            <div>
+                <h5>Categorías</h2>
+            </div>
             <div class="info-card">
-                Categorías
+                <style>
+                    .cont-categorias {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                    }
+
+                    .categoria {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                    }
+
+                </style>
+                <div class="cont-categorias">
+                    <div class="info-card categoria">
+                        <p>Cuentas</p>
+                        <p>$160.000</p>
+                    </div>
+                    <div class="info-card categoria">
+                        <p>Mascotas</p>
+                        <p>$20.000</p>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="col">
+            <div>
+                <h5>Subcategorías</h2>
+            </div>
             <div class="info-card">
-                Sub-categorías
                 <!-- Tabbla con los datos y presupuestos por sub-categorías -->
                 <table class="table table-hover">
                     <thead>
                       <tr>
                         <th>Nombre</th>
                         <th>Presupuesto</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td>Agua</td>
                         <td>$50.000</td>
+                        <td>
+                            Activado
+                            <i class="bi bi-dot" style="color: green; font-size: 30px; height: 5px; position: absolute; margin: -15px 0 0 -5px;"></i>
+                        </td>
+                        <td>
+                            <form action="/cambiar_estado_sub_categoria">
+                                <input type="hidden" name="id_sub_categoria" value="1">
+                                <button type="submit" class="bi bi-x-circle" 
+                                    style="color: red; font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                    title="Desactivar">
+                                </button>
+
+                            </form>
+                        </td>
                       </tr>
                       <tr>
                         <td>Luz</td>
                         <td>$30.000</td>
+                        <td>
+                            Desactivado
+                            <i class="bi bi-dot" style="color: red; font-size: 30px; height: 5px; position: absolute; margin: -15px 0 0 -5px;"></i>
+                        </td>
+                        <td>Desactivar</td>
                       </tr>
                       <tr>
                         <td>Gas</td>
                         <td>$5.000</td>
+                        <td>Activado</td>
+                        <td>Desactivar</td>
                       </tr>
                     </tbody>
                   </table>
@@ -140,48 +193,31 @@
     </div>
 </div>
 
-<!-- Modal para registrar egreso -->
-<div class="modal" id="registrarEgreso">
+<!-- Modal para agregar una categoría -->
+<div class="modal fade" id="agregarCategoria">
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="egresoForm" action="" method="POST">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Registrar egreso</h4>
+                    <h4 class="modal-title">Agregar categoría</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
                 <!-- Modal Body -->
                 <div class="modal-body">
+
                     <div class="cont-label-input">
-                        <label for="fecha">Fecha</label>
-                        <input type="date" id="fecha" required>
-                        <span class="error" id="fechaError"></span>
-                    </div>
-                    <div class="cont-label-input">
-                        <label for="categoria">Categoría</label>
-                        <select id="categoria" required>
-                            <option value="">Seleccione una opción</option>
-                            <option value="op1">Opción 1</option>
-                            <option value="op2">Opción 2</option>
-                        </select>
-                        <span class="error" id="categoriaError"></span>
-                    </div>
-                    <div class="cont-label-input">
-                        <label for="monto">Monto</label>
-                        <input type="text" id="monto" oninput="formatMonto(this)" required>
+                        <label for="monto">Nombre categoría</label>
+                        <input type="text" id="monto" required>
                         <span class="error" id="montoError"></span>
                     </div>
-                    <div class="cont-label-input">
-                        <label for="descripcion">Descripción</label>
-                        <textarea id="descripcion" required minlength="5"></textarea>
-                        <span class="error" id="descripcionError"></span>
-                    </div>
+
                 </div>
 
                 <!-- Modal Footer -->
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-blue">Registrar</button>
+                    <button type="submit" class="btn btn-blue">Agregar</button>
                 </div>
             </form>
 

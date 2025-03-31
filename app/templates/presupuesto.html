@@ -139,7 +139,7 @@
         </div>
         <div class="col">
             <div>
-                <h5>Subcategorías</h2>
+                <h5>Cuentas</h2>
             </div>
             <div class="info-card">
                 <!-- Tabbla con los datos y presupuestos por sub-categorías -->
@@ -178,16 +178,82 @@
                             Desactivado
                             <i class="bi bi-dot" style="color: red; font-size: 30px; height: 5px; position: absolute; margin: -15px 0 0 -5px;"></i>
                         </td>
-                        <td>Desactivar</td>
+                        <td>
+                            <form action="/cambiar_estado_sub_categoria">
+                                <input type="hidden" name="id_sub_categoria" value="1">
+                                <button type="submit" class="bi bi-check-circle" 
+                                    style="color: green; font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                    title="Activar">
+                                </button>
+
+                            </form>
+                        </td>
                       </tr>
                       <tr>
-                        <td>Gas</td>
-                        <td>$5.000</td>
-                        <td>Activado</td>
-                        <td>Desactivar</td>
+                        <td>Luz</td>
+                        <td>$30.000</td>
+                        <td>
+                            Desactivado
+                            <i class="bi bi-dot" style="color: red; font-size: 30px; height: 5px; position: absolute; margin: -15px 0 0 -5px;"></i>
+                        </td>
+                        <td>
+                            <form action="/cambiar_estado_sub_categoria">
+                                <input type="hidden" name="id_sub_categoria" value="1">
+                                <button type="submit" class="bi bi-check-circle" 
+                                    style="color: green; font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                    title="Activar">
+                                </button>
+
+                            </form>
+                        </td>
                       </tr>
+                      <tr>
+                        <td>Luz</td>
+                        <td>$30.000</td>
+                        <td>
+                            Desactivado
+                            <i class="bi bi-dot" style="color: red; font-size: 30px; height: 5px; position: absolute; margin: -15px 0 0 -5px;"></i>
+                        </td>
+                        <td>
+                            <form action="/cambiar_estado_sub_categoria">
+                                <input type="hidden" name="id_sub_categoria" value="1">
+                                <button type="submit" class="bi bi-check-circle" 
+                                    style="color: green; font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                    title="Activar">
+                                </button>
+
+                            </form>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Luz</td>
+                        <td>$30.000</td>
+                        <td>
+                            Desactivado
+                            <i class="bi bi-dot" style="color: red; font-size: 30px; height: 5px; position: absolute; margin: -15px 0 0 -5px;"></i>
+                        </td>
+                        <td>
+                            <form action="/cambiar_estado_sub_categoria">
+                                <input type="hidden" name="id_sub_categoria" value="1">
+                                <button type="submit" class="bi bi-check-circle" 
+                                    style="color: green; font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                    title="Activar">
+                                </button>
+
+                            </form>
+                        </td>
+                      </tr>
+
                     </tbody>
-                  </table>
+                </table>
+                <div class="card-footer" style="height:auto; width: 100%">
+                    <ul class="pagination pagination-sm justify-content-end">
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

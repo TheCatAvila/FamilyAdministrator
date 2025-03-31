@@ -1,9 +1,4 @@
-use family_administrator_db;
-
-CREATE USER 'family_user'@'localhost' IDENTIFIED BY 'Fdsw4weY5eeg';
-GRANT ALL PRIVILEGES ON family_administrator_db.* TO 'family_user'@'localhost';
-
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
@@ -12,39 +7,39 @@ CREATE TABLE users (
     register_date DATETIME NOT NULL
 );
 
-CREATE TABLE family (
+CREATE TABLE IF NOT EXISTS family (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) UNIQUE NOT NULL
 );
 
-CREATE TABLE family_role (
+CREATE TABLE IF NOT EXISTS family_role (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE
 );
 
-CREATE TABLE user_family (
+CREATE TABLE IF NOT EXISTS user_family (
     user_id INT NOT NULL,
     family_id INT NOT NULL,
     role_id INT NOT NULL,
-    PRIMARY KEY (user_id, family_id, role_id), 
+    PRIMARY KEY (user_id, family_id, role_id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (family_id) REFERENCES family(id) ON DELETE CASCADE,
     FOREIGN KEY (role_id) REFERENCES family_role(id) ON DELETE CASCADE
 );
 
-CREATE TABLE expense_category (
+CREATE TABLE IF NOT EXISTS expense_category (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) UNIQUE NOT NULL
 );
 
-CREATE TABLE expense_subcategory (
+CREATE TABLE IF NOT EXISTS expense_subcategory (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     category_id INT NOT NULL,
     FOREIGN KEY (category_id) REFERENCES expense_category(id) ON DELETE CASCADE
 );
 
-CREATE TABLE expenses (
+CREATE TABLE IF NOT EXISTS expenses (
     id INT AUTO_INCREMENT PRIMARY KEY,
     amount DECIMAL(10,2) NOT NULL,
     description VARCHAR(255),
@@ -55,4 +50,3 @@ CREATE TABLE expenses (
     FOREIGN KEY (subcategory_id) REFERENCES expense_subcategory(id) ON DELETE SET NULL,
     FOREIGN KEY (family_id) REFERENCES family(id) ON DELETE CASCADE
 );
-

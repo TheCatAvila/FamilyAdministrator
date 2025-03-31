@@ -1,6 +1,7 @@
 from flask import Flask, session
 from flask_session import Session
 from config.config import flask_config
+from app.database.db_dll import DLL
 
 def create_app():
     app = Flask(__name__)
@@ -9,6 +10,9 @@ def create_app():
 
     # Inicializar Flask-Session
     Session(app)
+
+    # Crear la base de datos y tablas si no existen
+    db_dll = DLL()
 
     @app.before_request
     def make_session_permanent():

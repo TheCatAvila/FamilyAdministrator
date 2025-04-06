@@ -1,9 +1,6 @@
-from flask_bcrypt import Bcrypt
 from flask import session
 from app.database.db_connection import Database
 from app.utils.security_utils import hash_password, check_password
-
-bcrypt = Bcrypt()
 
 class User:
     def __init__(self, id: int = None, name: str = None, lastname: str = None, email: str = None, password: str = None):

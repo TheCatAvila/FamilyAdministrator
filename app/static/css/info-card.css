@@ -60,6 +60,16 @@
     margin: 10px 0 0 0;
 }
 
+.card-footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-footer ul{
+    margin: 0;
+}
+
 @media (max-width: 768px) {
     .card {
         width: 100%;

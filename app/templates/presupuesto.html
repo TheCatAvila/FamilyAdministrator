@@ -13,7 +13,7 @@
             <h5 class="windows-name">Finanzas</h5>
             <a href="" class="direction-name">Inicio</a>
             <i class="bi bi-chevron-right direction-icon"></i>
-            <p class="direction-name">Finanzas</p>
+            <a href="{{ url_for('main.finanzas') }}" class="direction-name">Finanzas</a>
             <i class="bi bi-chevron-right direction-icon"></i>
             <p class="direction-name">Presupuesto</p>
         </div>
@@ -106,7 +106,7 @@
     <div class="row gx-0">
         <div class="col">
             <div>
-                <h5>Categorías</h2>
+                <h5 class="windows-name">Categorías</h2>
             </div>
             <div class="info-card">
                 <style>
@@ -134,7 +134,7 @@
                     {% for category in categories %}
                     <a class="info-card categoria" href="{{ url_for('budget.presupuesto', category_name=category['name']) }}">
                         <p>{{ category['name'] }}</p>
-                        <p>$160.000</p>
+                        <p>${{ "{:,.0f}".format(category['total_budget']) | replace(",", ".") }}</p>
                     </a>
                     {% endfor %}
                 </div>
@@ -142,8 +142,9 @@
             </div>
         </div>
         <div class="col">
+            {% if selected_category %}
             <div>
-                <h5>{{ selected_category if selected_category else 'Selecciona una categoría' }}</h5>
+                <h5 class="windows-name">{{ selected_category }}</h5>
             </div>
             <div class="info-card">
                 <!-- Tabbla con los datos y presupuestos por sub-categorías -->
@@ -158,8 +159,8 @@
                     <tbody>
                         {% for subcategory in subcategories %}
                         <tr>
-                            <td>Name: {{ subcategory['name'] }} ID: {{ subcategory['category_id'] }}</td>
-                            <td>$30.000</td>
+                            <td>{{ subcategory['name'] }}</td>
+                            <td>${{ "{:,.0f}".format(subcategory['budget']) | replace(",", ".") }}</td>
                             <td style="width: 33.3%;">
                                 <div class="cont-btns-acciones">
                                     <form action="/cambiar_estado_sub_categoria">
@@ -201,6 +202,15 @@
                     </ul>
                 </div>
             </div>
+            {% else %}
+            <div>
+                <h5 class="windows-name">Selecciona una categoría</h5>
+            </div>
+            <div class="info-card">
+
+            </div>
+            {% endif %}
+            
         </div>
     </div>
 </div>

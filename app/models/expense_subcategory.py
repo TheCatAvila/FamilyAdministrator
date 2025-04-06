@@ -38,8 +38,9 @@ class ExpenseSubcategory:
     def create(self):
         """Crea una nueva subcategoría de egresos."""
         try:
-            query = "INSERT INTO expense_subcategory (name, category_id) VALUES (%s, %s)"
-            values = (self.name, self.category_id)
+            query = "INSERT INTO expense_subcategory (name, budget, category_id) VALUES (%s, %s, %s)"
+            values = (self.name, self.budget, self.category_id)
+            print("Valores a insertar: ", values)
 
             with Database() as db:
                 db.execute(query, values)

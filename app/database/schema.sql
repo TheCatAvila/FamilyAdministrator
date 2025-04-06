@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS expense_category (
 CREATE TABLE IF NOT EXISTS expense_subcategory (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
+    budget DECIMAL(13, 2) NOT NULL,
     category_id INT NOT NULL,
     FOREIGN KEY (category_id) REFERENCES expense_category(id) ON DELETE CASCADE
 );

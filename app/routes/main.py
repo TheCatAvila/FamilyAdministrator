@@ -1,5 +1,6 @@
 from flask import Blueprint, session, redirect, render_template
 from app.models.user import User
+from app.models.expense_category import ExpenseCategory
 
 # Blueprint llamado 'main'
 main = Blueprint('main', __name__)
@@ -30,4 +31,10 @@ def finanzas():
     # Si el usuario está logueado, obtenemos sus datos
     user_name = user_login_data["name"]
 
-    return render_template('finanzas.html', user_name=user_name)
+    # Obtener las categorías de egresos
+    all_categories_response = ExpenseCategory().get_select_data()
+    if not all_categories_response["success"]:
+        return render_template('error.html', error=all_categories_response["error"])
+    categories = all_categories_response["categories"]
+
+    return render_template('finanzas.html', user_name=user_name, categories=categories)

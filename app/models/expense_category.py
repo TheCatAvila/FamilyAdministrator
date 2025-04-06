@@ -8,7 +8,30 @@ class ExpenseCategory:
     def get_all(self):
         """Obtiene todas las categorías de egresos."""
         try:
-            query = "SELECT * FROM expense_category"
+            query = """SELECT 
+                            ec.id, 
+                            ec.name, 
+                            SUM(es.budget) AS total_budget
+                        FROM 
+                            expense_category ec
+                        JOIN 
+                            expense_subcategory es ON ec.id = es.category_id
+                        GROUP BY 
+                            ec.id, ec.name;
+                    """
+            with Database() as db:
+                db.execute(query)
+                categories = db.fetchall()
+            
+            return {"success": True, "categories": categories}
+        
+        except Exception as e:
+            return {"success": False, "error": f"Error inesperado: {e}"}
+    
+    def get_select_data(self):
+        """Obtiene los nombres de todas las categorías de egresos."""
+        try:
+            query = "SELECT id, name FROM expense_category"
             with Database() as db:
                 db.execute(query)
                 categories = db.fetchall()

@@ -60,13 +60,16 @@ def add_subcategory():
         category_name = request.form['category_name']
         subcategory_name = request.form['subcategory_name']
         subcategory_budget = request.form['subcategory_budget']
-        
+
+        # Formatear datos recibidos
+        budget = subcategory_budget.replace(".", "")
+
         category_id_response = ExpenseCategory(name=category_name).get_id_by_name()
         if not category_id_response["success"]:
             return render_template('error.html', error=category_id_response["error"])
         category_id = category_id_response["id"]
 
-        ExpenseSubcategory(name=subcategory_name, budget=subcategory_budget ,category_id=category_id).create()
+        ExpenseSubcategory(name=subcategory_name, budget=budget ,category_id=category_id).create()
         
         return redirect(f'/finanzas/presupuesto/{category_name}')
 

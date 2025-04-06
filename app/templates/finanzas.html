@@ -136,8 +136,9 @@
                         <label for="categoria">Categoría</label>
                         <select id="categoria" required>
                             <option value="">Seleccione una opción</option>
-                            <option value="op1">Opción 1</option>
-                            <option value="op2">Opción 2</option>
+                            {% for category in categories %}
+                            <option value="{{ category['id'] }}">{{ category['name'] }}</option>
+                            {% endfor %}
                         </select>
                         <span class="error" id="categoriaError"></span>
                     </div>

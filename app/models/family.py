@@ -8,7 +8,13 @@ class Family:
     def get(self):
         """Obtiene todas las familias asociadas al usuario logeado."""
         try:
-            query = "SELECT id, name FROM family WHERE id = %s"
+            query = """SELECT 
+                f.id AS family_id, 
+                f.name AS family_name,
+                uf.user_id AS user_id
+            FROM family f
+            JOIN user_family uf ON f.id = uf.family_id
+            WHERE uf.user_id = %s;"""
             values = (self.id,)
             with Database() as db:
                 db.execute(query, values)

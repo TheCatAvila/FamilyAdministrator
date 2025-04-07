@@ -26,6 +26,9 @@ class Database:
 
     def fetchall(self):
         return self.cursor.fetchall()
+    
+    def last_insert_id(self):
+        return self.cursor.lastrowid
 
     def commit(self):
         self.conn.commit()

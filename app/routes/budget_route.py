@@ -14,7 +14,6 @@ def presupuesto(category_name=None):
     user_login_data = User(id=user_id).get_login_data()
     if not user_login_data:
         return redirect("/ingresar")
-    user_name = user_login_data["name"]
 
     # Obtener las categorías de egresos
     all_categories_response = ExpenseCategory().get_all()
@@ -37,7 +36,7 @@ def presupuesto(category_name=None):
             return render_template('error.html', error=subcategories_response["error"])
         subcategories = subcategories_response["subcategories"]
 
-    return render_template('presupuesto.html', user_name=user_name, categories=categories, subcategories=subcategories, selected_category=selected_category)
+    return render_template('presupuesto.html', user_login_data=user_login_data, categories=categories, subcategories=subcategories, selected_category=selected_category)
 
 # CATEGORÍAS
 # ----------------------------------------------------------------------
@@ -78,7 +77,6 @@ def edit_subcategory():
     if request.method == 'POST':
         # Obtener los datos del formulario
         subcategory_id = request.form['subcategory_id']
-        print("ID subcategoría: ", subcategory_id)
         #ExpenseSubcategory(name=category_name, category_id=1).create_subcategory()
         
         return redirect('/finanzas/presupuesto')
@@ -88,7 +86,6 @@ def delete_subcategory():
     if request.method == 'POST':
         # Obtener los datos del formulario
         subcategory_id = request.form['subcategory_id']
-        print("ID subcategoría: ", subcategory_id)
         ExpenseSubcategory(id=subcategory_id).delete()
         
         return redirect('/finanzas/presupuesto')

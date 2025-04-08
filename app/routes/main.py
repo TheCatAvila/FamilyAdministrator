@@ -59,3 +59,14 @@ def finanzas():
     categories = all_categories_response["categories"]
 
     return render_template('finanzas.html', user_login_data=user_login_data, categories=categories)
+
+@main.route('/prestamos')
+def prestamos():
+
+    # Verificar si el usuario está logueado y obtener sus datos de sesión
+    user_id = session.get("user_id")
+    user_login_data = User(id=user_id).get_login_data()
+    if not user_login_data:
+        return redirect("/ingresar")
+
+    return render_template('prestamos.html', user_login_data=user_login_data)

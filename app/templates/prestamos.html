@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block title %}Préstamos{% endblock %}
+
+<!-- Estilos css personalizados por página -->
+{% block css %}
+{% endblock %}
+
+<!-- Contenido principal de la página -->
+{% block content %}
+<div class="container-fluid cont-main">
+    <div class="row gx-0">
+        <div class="col cont-top-directions">
+            <h5 class="windows-name">Préstamos</h5>
+            <a href="{{ url_for('main.index') }}" class="direction-name">Inicio</a>
+            <i class="bi bi-chevron-right direction-icon"></i>
+            <p class="direction-name">Préstamos</p>
+        </div>
+        <div class="col cont-top-buttons">
+            <!-- Button to Open the Modal -->
+            <a class="btn btn-category" href="{{ url_for('budget.presupuesto') }}">Gestionar presupuesto</a>
+            </button>
+            <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#registrarEgreso">
+                Registrar egreso
+            </button>
+        </div>
+    </div>
+
+    <div class="row gx-0">
+        <!-- CARD 1 -->
+        <div class="col">
+            <div class="info-card">
+                <p class="card-top-info">Total Egresos Mensual</p>
+                <div class="data-and-percent">
+                    <p class="card-data">$5.000</p>
+                    <div class="percent-div">
+                        <p class="percent-data">
+                            <span class="span-percent-data">
+                                <i class="bi bi-graph-up-arrow"></i>
+                                50.3
+                            </span>%
+                        </p>
+                    </div>
+                </div>
+                <p class="card-bottom-info">You made an extra 35.00 this year.</p>
+            </div>
+        </div>
+        <!-- CARD 2 -->
+        <div class="col">
+            <div class="info-card">
+                <p class="card-top-info">Total Egresos Anual</p>
+                <div class="data-and-percent">
+                    <p class="card-data">$5.000</p>
+                    <div class="percent-div">
+                        <p class="percent-data">
+                            <span class="span-percent-data">
+                                <i class="bi bi-graph-up-arrow"></i>
+                                50.3
+                            </span>%
+                        </p>
+                    </div>
+                </div>
+                <p class="card-bottom-info">You made an extra 35.00 this year.</p>
+            </div>
+        </div>
+        <!-- CARD 3 -->
+        <div class="col">
+            <div class="info-card">
+                <p class="card-top-info">Presupuesto Abril</p>
+                <div class="data-and-percent">
+                    <p class="card-data">$5.000</p>
+                    <div class="percent-div">
+                        <p class="percent-data">
+                            <span class="span-percent-data">
+                                <i class="bi bi-graph-up-arrow"></i>
+                                50.3
+                            </span>%
+                        </p>
+                    </div>
+                </div>
+                <p class="card-bottom-info">You made an extra 35.00 this year.</p>
+            </div>
+        </div>
+        <!-- CARD 4 -->
+        <div class="col">
+            <div class="info-card">
+                <p class="card-top-info">Egresos Vs Presupuesto</p>
+                <div class="data-and-percent">
+                    <p class="card-data">$5.000</p>
+                    <div class="percent-div">
+                        <p class="percent-data">
+                            <span class="span-percent-data">
+                                <i class="bi bi-graph-up-arrow"></i>
+                                50.3
+                            </span>%
+                        </p>
+                    </div>
+                </div>
+                <p class="card-bottom-info">You made an extra 35.00 this year.</p>
+            </div>
+        </div>
+    </div>
+    <div class="row gx-0">
+        <div class="col">
+            <div class="info-card">
+                a
+            </div>
+        </div>
+        <div class="col">
+            <div class="info-card">
+                a
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para registrar egreso -->
+<div class="modal fade" id="registrarEgreso">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="egresoForm" action="" method="POST">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Registrar egreso</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div class="cont-label-input">
+                        <label for="fecha">Fecha</label>
+                        <input type="date" id="fecha" required>
+                        <span class="error" id="fechaError"></span>
+                    </div>
+                    <div class="cont-label-input">
+                        <label for="categoria">Categoría</label>
+                        <select id="categoria" required>
+                            <option value="">Seleccione una opción</option>
+                            {% for category in categories %}
+                            <option value="{{ category['id'] }}">{{ category['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="error" id="categoriaError"></span>
+                    </div>
+                    <div class="cont-label-input">
+                        <label for="monto">Monto</label>
+                        <input type="text" id="monto" oninput="formatMonto(this)" required>
+                        <span class="error" id="montoError"></span>
+                    </div>
+                    <div class="cont-label-input">
+                        <label for="descripcion">Descripción</label>
+                        <textarea id="descripcion" required minlength="5"></textarea>
+                        <span class="error" id="descripcionError"></span>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-blue">Registrar</button>
+                </div>
+            </form>
+
+            <style>
+                .error {
+                    color: red;
+                    font-size: 0.875em;
+                    display: block;
+                    margin-top: 5px;
+                }
+            </style>
+
+        </div>
+    </div>
+</div>
+{% endblock %}   
+
+<!-- JavaScript personalizado por página -->
+{% block js %}
+<script src="{{ url_for('static', filename='js/add-egreso-form.js') }}"></script>
+{% endblock %}

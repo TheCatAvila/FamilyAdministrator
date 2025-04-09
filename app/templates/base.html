@@ -27,7 +27,7 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-sm fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Fixed top</a>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}">Family administrator</a>
                 <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
                     {% if session.get('user_id') %}
                         <div style="display: flex; align-items: center; gap: 10px;">
@@ -50,9 +50,9 @@
         <nav class="sidebar">
             <h4 class="text-center">Menú</h4>
             <a href=""></a>
-            <a href="{{ url_for('main.index') }}"><i class="bi bi-house-door"></i> <span>Inicio</span></a>
-            <a href=" {{url_for('main.finanzas') }}"><i class="bi bi-person"></i> <span>Finanzas</span></a>
-            <a href=" {{url_for('main.prestamos') }}"><i class="bi bi-person"></i> <span>Préstamos</span></a>
+            <a href="{{ url_for('main.familias') }}"><i class="bi bi-house-door"></i> <span>Familias</span></a>
+            <a href="{{ url_for('main.finanzas') }}"><i class="bi bi-graph-up-arrow"></i> <span>Finanzas</span></a>
+            <a><i class="bi bi-credit-card"></i> <span>Préstamos</span></a>
         </nav>
     </header>
     {% endblock %}

@@ -5,17 +5,17 @@ from app.models.user import User
 from app.services.user_service import UserService
 
 # Blueprint llamado 'main'
-auth_routes = Blueprint('auth_routes', __name__)
+auth = Blueprint('auth_routes', __name__)
 
-@auth_routes.route('/ingresar')
+@auth.route('/ingresar')
 def login():
     return render_template('auth/login.html')
 
-@auth_routes.route('/registrar')
+@auth.route('/registrar')
 def register():
     return render_template('auth/register.html')
 
-@auth_routes.route("/login_user", methods=["POST"])
+@auth.route("/login_user", methods=["POST"])
 def login_user():
     if request.method == "POST":
         # Obtener los datos del formulario
@@ -34,7 +34,7 @@ def login_user():
             # Si el login falla
             return jsonify({"success": False, "message": "Contraseña o email incorrectos."})
 
-@auth_routes.route("/register_user", methods=["POST"])
+@auth.route("/register_user", methods=["POST"])
 def register_user():
     if request.method == "POST":
         # Obtener los datos del formulario
@@ -59,7 +59,7 @@ def register_user():
     
     return render_template("register.html")  # Muestra el formulario si es GET
 
-@auth_routes.route("/logout", methods=["POST"])
+@auth.route("/logout", methods=["POST"])
 def logout():
     """Cierra la sesión del usuario."""
     session.pop("user_id", None)

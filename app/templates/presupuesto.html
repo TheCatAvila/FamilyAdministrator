@@ -11,17 +11,13 @@
     <div class="row gx-0">
         <div class="col cont-top-directions">
             <h5 class="windows-name">Finanzas</h5>
-            <a href="" class="direction-name">Inicio</a>
+            <a href="{{ url_for('main.index') }}" class="direction-name">Inicio</a>
             <i class="bi bi-chevron-right direction-icon"></i>
             <a href="{{ url_for('main.finanzas') }}" class="direction-name">Finanzas</a>
             <i class="bi bi-chevron-right direction-icon"></i>
             <p class="direction-name">Presupuesto</p>
         </div>
         <div class="col cont-top-buttons">
-            <!-- Button to Open the Modal -->
-            <button type="button" class="btn btn-category">
-                Gestionar categorías
-            </button>
             <!-- Button to Open the Modal -->
             <button type="button" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#agregarCategoria">
                 Agregar categoría
@@ -33,75 +29,17 @@
         <!-- CARD 1 -->
         <div class="col">
             <div class="info-card">
-                <p class="card-top-info">Total Page Views</p>
+                <p class="card-top-info">Presupuesto Total Mensual</p>
                 <div class="data-and-percent">
-                    <p class="card-data">$5.000</p>
-                    <div class="percent-div">
-                        <p class="percent-data">
-                            <span class="span-percent-data">
-                                <i class="bi bi-graph-up-arrow"></i>
-                                50.3
-                            </span>%
-                        </p>
-                    </div>
+                    {% if total_budget %}
+                    <p class="card-data">${{ "{:,.0f}".format(total_budget) | replace(",", ".") }}</p>
+                    {% else %}
+                    <p class="card-data">$0</p>
+                    {% endif %}
                 </div>
-                <p class="card-bottom-info">You made an extra 35.00 this year.</p>
             </div>
         </div>
-        <!-- CARD 2 -->
-        <div class="col">
-            <div class="info-card">
-                <p class="card-top-info">Total Page Views</p>
-                <div class="data-and-percent">
-                    <p class="card-data">$5.000</p>
-                    <div class="percent-div">
-                        <p class="percent-data">
-                            <span class="span-percent-data">
-                                <i class="bi bi-graph-up-arrow"></i>
-                                50.3
-                            </span>%
-                        </p>
-                    </div>
-                </div>
-                <p class="card-bottom-info">You made an extra 35.00 this year.</p>
-            </div>
-        </div>
-        <!-- CARD 3 -->
-        <div class="col">
-            <div class="info-card">
-                <p class="card-top-info">Total Page Views</p>
-                <div class="data-and-percent">
-                    <p class="card-data">$5.000</p>
-                    <div class="percent-div">
-                        <p class="percent-data">
-                            <span class="span-percent-data">
-                                <i class="bi bi-graph-up-arrow"></i>
-                                50.3
-                            </span>%
-                        </p>
-                    </div>
-                </div>
-                <p class="card-bottom-info">You made an extra 35.00 this year.</p>
-            </div>
-        </div>
-        <!-- CARD 4 -->
-        <div class="col">
-            <div class="info-card">
-                <p class="card-top-info">Total Page Views</p>
-                <div class="data-and-percent">
-                    <p class="card-data">$5.000</p>
-                    <div class="percent-div">
-                        <p class="percent-data">
-                            <span class="span-percent-data">
-                                <i class="bi bi-graph-up-arrow"></i>
-                                50.3
-                            </span>%
-                        </p>
-                    </div>
-                </div>
-                <p class="card-bottom-info">You made an extra 35.00 this year.</p>
-            </div>
-        </div>
+
     </div>
     <div class="row gx-0">
         <div class="col">
@@ -122,19 +60,17 @@
                         flex-direction: row;
                         justify-content: space-between;
                         cursor: pointer;
-                        transition: all 0.2s ease-in-out;
-                    }
-
-                    .categoria:hover {
-                        scale: 1.01;
-                        box-shadow: 0px 0px 10px 5px var(--light-blue);
                     }
                 </style>
                 <div class="cont-categorias">
                     {% for category in categories %}
-                    <a class="info-card categoria" href="{{ url_for('budget.presupuesto', category_name=category['name']) }}">
+                    <a class="info-card categoria clickable-card" href="{{ url_for('budget.presupuesto', category_name=category['name']) }}">
                         <p>{{ category['name'] }}</p>
-                        <p>${{ "{:,.0f}".format(category['total_budget']) | replace(",", ".") }}</p>
+                        {% if category['total_category_budget'] %}
+                        <p>${{ "{:,.0f}".format(category['total_category_budget']) | replace(",", ".") }}</p>
+                        {% else %}
+                        <p>$0</p>
+                        {% endif %}
                     </a>
                     {% endfor %}
                 </div>

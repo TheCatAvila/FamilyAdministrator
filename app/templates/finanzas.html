@@ -68,15 +68,11 @@
             <div class="info-card">
                 <p class="card-top-info">Presupuesto Abril</p>
                 <div class="data-and-percent">
-                    <p class="card-data">$5.000</p>
-                    <div class="percent-div">
-                        <p class="percent-data">
-                            <span class="span-percent-data">
-                                <i class="bi bi-graph-up-arrow"></i>
-                                50.3
-                            </span>%
-                        </p>
-                    </div>
+                    {% if total_budget %}
+                    <p class="card-data">${{ "{:,.0f}".format(total_budget) | replace(",", ".") }}</p>
+                    {% else %}
+                    <p class="card-data">$0</p>
+                    {% endif %}
                 </div>
                 <p class="card-bottom-info">You made an extra 35.00 this year.</p>
             </div>
@@ -132,15 +128,22 @@
                         <input type="date" id="fecha" required>
                         <span class="error" id="fechaError"></span>
                     </div>
-                    <div class="cont-label-input">
-                        <label for="categoria">Categoría</label>
-                        <select id="categoria" required>
-                            <option value="">Seleccione una opción</option>
-                            {% for category in categories %}
-                            <option value="{{ category['id'] }}">{{ category['name'] }}</option>
-                            {% endfor %}
-                        </select>
-                        <span class="error" id="categoriaError"></span>
+                    <div class="cont-50-50">
+                        <div class="cont-label-input">
+                            <label for="categoria">Categoría</label>
+                            <select id="categoria" required>
+                                <option value="0">Seleccione una categoría</option>
+                                {% for category in categories %}
+                                <option value="{{ category['id'] }}">{{ category['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                            <span class="error" id="categoriaError"></span>
+                        </div>
+                        <div class="cont-label-input">
+                            <label for="subcategoria">Subcategoría</label>
+                            <select id="subcategoria" name="subcategoria" required></select>
+                            <span class="error" id="subcategoriaError"></span>
+                        </div>
                     </div>
                     <div class="cont-label-input">
                         <label for="monto">Monto</label>
@@ -148,8 +151,8 @@
                         <span class="error" id="montoError"></span>
                     </div>
                     <div class="cont-label-input">
-                        <label for="descripcion">Descripción</label>
-                        <textarea id="descripcion" required minlength="5"></textarea>
+                        <label for="descripcion">Descripción <span>(Opcional)</span></label>
+                        <textarea id="descripcion" minlength="1"></textarea>
                         <span class="error" id="descripcionError"></span>
                     </div>
                 </div>
@@ -177,4 +180,50 @@
 <!-- JavaScript personalizado por página -->
 {% block js %}
 <script src="{{ url_for('static', filename='js/add-egreso-form.js') }}"></script>
+<script>
+    document.getElementById('categoria').addEventListener('change', function () {
+        const categoriaId = this.value;
+        const subcategoriaSelect = document.getElementById('subcategoria');
+
+        // Limpia todas las opciones anteriores
+        subcategoriaSelect.innerHTML = '';
+
+        // Si no se ha seleccionado una categoría válida (id = 0)
+        if (categoriaId === "0" || categoriaId === "") {
+            subcategoriaSelect.disabled = true;
+            return;
+        }
+
+        // Si se seleccionó una categoría válida
+        subcategoriaSelect.disabled = false;
+
+        fetch(`/get_subcategorias/${categoriaId}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach((subcat, index) => {
+                    const option = document.createElement('option');
+                    option.value = subcat.id;
+                    option.textContent = subcat.name;
+
+                    // Selecciona por defecto la primera subcategoría
+                    if (index === 0) {
+                        option.selected = true;
+                    }
+
+                    subcategoriaSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error cargando subcategorías:', error));
+    });
+
+    // Al cargar la página, verifica si hay que desactivar el select
+    window.addEventListener('DOMContentLoaded', () => {
+        const categoriaId = document.getElementById('categoria').value;
+        const subcategoriaSelect = document.getElementById('subcategoria');
+        subcategoriaSelect.disabled = (categoriaId === "0" || categoriaId === "");
+    });
+</script>
+
+
+
 {% endblock %}

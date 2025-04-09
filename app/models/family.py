@@ -28,7 +28,7 @@ class Family:
     def create(self):
         """Crea una nueva familia al usuario logeado."""
         try:
-            query = "INSERT INTO family (name) VALUES (%s)"
+            query = "INSERT INTO family (name, created_at) VALUES (%s, NOW())"
             values = (self.name,)
 
             with Database() as db:
@@ -52,6 +52,21 @@ class Family:
                 db.commit()
 
             return {"success": True, "message": "Familia asociada al usuario exitosamente."}
+        
+        except Exception as e:
+            return {"success": False, "error": f"Error inesperado: {e}"}
+    
+    def select(self, user_id: int):
+        """Selecciona una familia."""
+        try:
+            query = "UPDATE users SET family_selected_id = %s WHERE id = %s"
+            values = (self.id, user_id)
+
+            with Database() as db:
+                db.execute(query, values)
+                db.commit()
+
+            return {"success": True, "message": "Familia seleccionada exitosamente."}
         
         except Exception as e:
             return {"success": False, "error": f"Error inesperado: {e}"}

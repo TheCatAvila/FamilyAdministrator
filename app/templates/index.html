@@ -7,76 +7,10 @@
 
 <!-- Contenido principal de la página -->
 {% block content %}
-<div class="container-fluid cont-main">
-    <div class="row gx-0">
-        <div class="col cont-top-directions">
-            <h5 class="windows-name">Inicio</h5>
-            <p class="direction-name">Inicio</p>
-        </div>
-        <div class="col cont-top-buttons">
-            <!-- Button to Open the Modal -->
-            <a class="btn btn-category" href="{{ url_for('budget.presupuesto') }}">Unirse a una familia</a>
-            </button>
-            <!-- Button to Open the Modal -->
-            <button type="button" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#crearFamilia">
-                Crear familia
-            </button>
-        </div>
-    </div>
-    <div class="row gx-0">
-        {% for family in families %}
-        <div class="col">
-            <div class="info-card">
-                <h4>{{ family['family_name'] }}</h4>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
 
-<!-- Modal para registrar egreso -->
-<div class="modal fade" id="crearFamilia">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="egresoForm" action="/create_family" method="POST">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Crear grupo familiar</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <!-- Modal Body -->
-                <div class="modal-body">
-
-                    <div class="cont-label-input">
-                        <label for="monto">Nombre de la familia</label>
-                        <input type="text" id="family_name" name="family_name" required>
-                        <span class="error" id="montoError"></span>
-                    </div>
-
-                </div>
-
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-blue">Crear</button>
-                </div>
-            </form>
-
-            <style>
-                .error {
-                    color: red;
-                    font-size: 0.875em;
-                    display: block;
-                    margin-top: 5px;
-                }
-            </style>
-
-        </div>
-    </div>
-</div>
 {% endblock %}
 
 <!-- JavaScript personalizado por página -->
 {% block js %}
-<script src="{{ url_for('static', filename='js/swal-login-response.js') }}"></script>
+
 {% endblock %}

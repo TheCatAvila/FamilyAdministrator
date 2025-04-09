@@ -1,15 +1,18 @@
+CREATE TABLE IF NOT EXISTS family (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    created_at DATETIME NOT NULL
+    );
+
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
     email VARCHAR(120) UNIQUE NOT NULL,
     password VARCHAR(256) NOT NULL,
-    register_date DATETIME NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS family (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) UNIQUE NOT NULL
+    register_date DATETIME NOT NULL,
+    family_selected_id INT,
+    FOREIGN KEY (family_selected_id) REFERENCES family(id)
 );
 
 CREATE TABLE IF NOT EXISTS family_role (
@@ -29,7 +32,9 @@ CREATE TABLE IF NOT EXISTS user_family (
 
 CREATE TABLE IF NOT EXISTS expense_category (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) UNIQUE NOT NULL
+    name VARCHAR(100) NOT NULL,
+    family_id INT NOT NULL,
+    FOREIGN KEY (family_id) REFERENCES family(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS expense_subcategory (

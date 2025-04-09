@@ -19,11 +19,13 @@ def create_app():
         session.permanent = True
 
     # Importar y registrar Blueprints
-    from app.routes.main import main
-    from app.routes.auth import auth_routes
-    from app.routes.budget_route import budget
+    from app.routes.main_routes import main
+    from app.routes.auth_routes import auth
+    from app.routes.budget_routes import budget
+    from app.routes.families_routes import families
     app.register_blueprint(main)
-    app.register_blueprint(auth_routes)
+    app.register_blueprint(auth)
     app.register_blueprint(budget)
+    app.register_blueprint(families)
 
     return app

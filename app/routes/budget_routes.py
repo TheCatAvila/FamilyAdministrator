@@ -14,12 +14,21 @@ def presupuesto(category_name=None):
     user_login_data = User(id=user_id).get_login_data()
     if not user_login_data:
         return redirect("/ingresar")
+    
+    # Obtener la familia seleccionada del usuario
+    user_response = User(id=user_id).get_family_selected_id()
+    family_id = user_response["family_selected_id"]
 
     # Obtener las categorías de egresos
-    all_categories_response = ExpenseCategory().get_all()
+    all_categories_response = ExpenseCategory(family_id=family_id).get_all_of_family()
     if not all_categories_response["success"]:
         return render_template('error.html', error=categories["error"])
     categories = all_categories_response["categories"]
+    # Obtener el presupuesto total de la familia
+    total_budget_response = ExpenseSubcategory().get_total_budget_by_family(family_id=family_id)
+    if not total_budget_response["success"]:
+        return render_template('error.html', error=total_budget_response["error"])
+    total_budget = total_budget_response["total_budget"]
 
     subcategories = []
     selected_category = None
@@ -36,7 +45,8 @@ def presupuesto(category_name=None):
             return render_template('error.html', error=subcategories_response["error"])
         subcategories = subcategories_response["subcategories"]
 
-    return render_template('presupuesto.html', user_login_data=user_login_data, categories=categories, subcategories=subcategories, selected_category=selected_category)
+    return render_template('presupuesto.html', user_login_data=user_login_data, categories=categories, subcategories=subcategories, selected_category=selected_category,
+                           total_budget=total_budget)
 
 # CATEGORÍAS
 # ----------------------------------------------------------------------
@@ -45,10 +55,24 @@ def add_category():
     if request.method == 'POST':
         # Obtener los datos del formulario
         category_name = request.form['category_name']
-        
-        ExpenseCategory(name=category_name).create()
+
+        user_id = session.get("user_id")
+        user_response = User(id=user_id).get_family_selected_id()
+        family_id = user_response["family_selected_id"]
+
+        ExpenseCategory(name=category_name, family_id=family_id).create()
         
         return redirect('/finanzas/presupuesto')
+
+@budget.route('/get_subcategorias/<int:categoria_id>')
+def get_subcategorias(categoria_id):
+    # Suponiendo que tienes una función que obtiene subcategorías desde la base de datos
+    subcategories_result = ExpenseSubcategory(category_id=categoria_id).get_by_category_id()
+    if not subcategories_result["success"]:
+        return render_template('error.html', error=subcategories_result["error"])
+    subcategories = subcategories_result["subcategories"]
+    return subcategories
+
 
 # SUB CATEGORÍAS
 # ----------------------------------------------------------------------

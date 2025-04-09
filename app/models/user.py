@@ -52,3 +52,18 @@ class User:
             db.execute(query, values)
             login_data = db.fetchone()
             return login_data
+        
+    def get_family_selected_id(self):
+        """Obtiene la familia seleccionada por el usuario."""
+        try:
+            query = "SELECT family_selected_id FROM users WHERE id = %s"
+            values = (self.id,)
+            
+            with Database() as db:
+                db.execute(query, values)
+                family_selected_id = db.fetchone()
+
+            return {"success": True, "family_selected_id": family_selected_id['family_selected_id']}
+        
+        except Exception as e:
+            return {"success": False, "error": f"Error inesperado: {e}"}

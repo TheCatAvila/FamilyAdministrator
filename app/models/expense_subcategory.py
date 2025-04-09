@@ -20,6 +20,27 @@ class ExpenseSubcategory:
         except Exception as e:
             return {"success": False, "error": f"Error inesperado: {e}"}
     
+    def get_total_budget_by_family(self, family_id: int):
+        """Obtiene el total del presupuesto de todas las subcategorías."""
+        try:
+            query = """SELECT 
+                            SUM(es.budget) AS total_family_budget
+                        FROM 
+                            expense_category ec
+                        LEFT JOIN 
+                            expense_subcategory es ON ec.id = es.category_id
+                        WHERE 
+                            ec.family_id = %s;""" 
+            with Database() as db:
+                values = (family_id,)
+                db.execute(query, values)
+                total_budget = db.fetchone()
+            
+            return {"success": True, "total_budget": total_budget['total_family_budget']}
+        
+        except Exception as e:
+            return {"success": False, "error": f"Error inesperado: {e}"}
+    
     def get_by_category_id(self):
         """Obtiene todas las subcategorías de egresos por categoría."""
         try:

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}Inicio{% endblock %}
+
+<!-- Estilos css personalizados por página -->
+{% block css %}
+{% endblock %}
+
+<!-- Contenido principal de la página -->
+{% block content %}
+<div class="container-fluid cont-main">
+    <div class="row gx-0">
+        <div class="col cont-top-directions">
+            <h5 class="windows-name">Inicio</h5>
+            <a href="{{ url_for('main.index') }}" class="direction-name">Inicio</a>
+            <i class="bi bi-chevron-right direction-icon"></i>
+            <p class="direction-name">Familias</p>
+        </div>
+        <div class="col cont-top-buttons">
+            <!-- Button to Open the Modal -->
+            <button class="btn btn-category" disabled>Unirse a una familia</button>
+            <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#crearFamilia">
+                Crear familia
+            </button>
+        </div>
+    </div>
+    <div class="row gx-0">
+        {% for family in families %}
+            {% if family_selected_id == family['family_id'] %}
+            <div class="col">
+                <div class="info-card selected-card">
+                    <h4>{{ family['family_name'] }}</h4>
+                </div>
+            </div>
+            {% else %}
+            <div class="col">
+                <form action="/select_family" method="POST">
+                    <input type="hidden" name="family_id" value="{{ family['family_id'] }}">
+                    <button type="submit" class="info-card clickable-card">
+                        <h4>{{ family['family_name'] }}</h4>
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal para registrar egreso -->
+<div class="modal fade" id="crearFamilia">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="egresoForm" action="/create_family" method="POST">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Crear grupo familiar</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+
+                    <div class="cont-label-input">
+                        <label for="monto">Nombre de la familia</label>
+                        <input type="text" id="family_name" name="family_name" required>
+                        <span class="error" id="montoError"></span>
+                    </div>
+
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-blue">Crear</button>
+                </div>
+            </form>
+
+            <style>
+                .error {
+                    color: red;
+                    font-size: 0.875em;
+                    display: block;
+                    margin-top: 5px;
+                }
+            </style>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- JavaScript personalizado por página -->
+{% block js %}
+<script src="{{ url_for('static', filename='js/swal-login-response.js') }}"></script>
+{% endblock %}

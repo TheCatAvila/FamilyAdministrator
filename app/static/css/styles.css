@@ -12,6 +12,10 @@ main{
     width: 100%;
 }
 
+a{
+    color: black;
+}
+
 /* NAVBAR */
 .navbar{
     background-color: var(--withe);
@@ -65,25 +69,39 @@ main{
 }
 
 .windows-name{
-    font-size: 1.5em;
+    font-size: 1.15em;
     font-weight: 500;
-    color: var(--dark-gray);
+    color: black;
     margin: 0;
     padding: 0;
 }
 
 .direction-name{
-    font-size: 1.0em;
+    font-size: 0.9em;
     font-weight: 500;
-    color: var(--dark-gray);
+    color: black;
     margin: 0;
     padding: 0;
+    text-decoration: none;
+}
+
+.direction-name:hover{
+    color: var(--blue);
+}
+
+.direction-select{
+    font-size: 0.9em;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    color: var(--dark-gray);
 }
 
 .direction-icon{
     font-size: 0.7em;
     font-weight: 500;
     color: var(--dark-gray);
+    margin: 0 -10px
 }
 
 @media (max-width: 768px) {

@@ -7,6 +7,10 @@ p, a{
     font-size: 0.8em;
 }
 
+a{
+    color: var(--blue);
+}
+
 /* COLUMNAS Y ROWS */
 .cont-acceder{
     height: 100%;

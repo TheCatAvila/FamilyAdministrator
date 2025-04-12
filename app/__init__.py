@@ -21,10 +21,12 @@ def create_app():
     # Importar y registrar Blueprints
     from app.routes.main_routes import main
     from app.routes.auth_routes import auth
+    from app.routes.finance_routes import finance
     from app.routes.budget_routes import budget
     from app.routes.families_routes import families
     app.register_blueprint(main)
     app.register_blueprint(auth)
+    app.register_blueprint(finance)
     app.register_blueprint(budget)
     app.register_blueprint(families)
 

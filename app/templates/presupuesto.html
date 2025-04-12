@@ -15,7 +15,7 @@
             <i class="bi bi-chevron-right direction-icon"></i>
             <a href="{{ url_for('main.finanzas') }}" class="direction-name">Finanzas</a>
             <i class="bi bi-chevron-right direction-icon"></i>
-            <p class="direction-name">Presupuesto</p>
+            <p class="direction-select">Presupuesto</p>
         </div>
         <div class="col cont-top-buttons">
             <!-- Button to Open the Modal -->
@@ -44,7 +44,7 @@
     <div class="row gx-0">
         <div class="col">
             <div>
-                <h5 class="windows-name">Categorías</h2>
+                <h5 class="windows-name pb-4">Categorías</h2>
             </div>
             <div class="info-card">
                 <style>
@@ -64,7 +64,7 @@
                 </style>
                 <div class="cont-categorias">
                     {% for category in categories %}
-                    <a class="info-card categoria clickable-card" href="{{ url_for('budget.presupuesto', category_name=category['name']) }}">
+                    <a class="info-card categoria clickable-card" href="{{ url_for('finance.presupuesto', category_name=category['name']) }}">
                         <p>{{ category['name'] }}</p>
                         {% if category['total_category_budget'] %}
                         <p>${{ "{:,.0f}".format(category['total_category_budget']) | replace(",", ".") }}</p>
@@ -80,7 +80,7 @@
         <div class="col">
             {% if selected_category %}
             <div>
-                <h5 class="windows-name">{{ selected_category }}</h5>
+                <h5 class="windows-name pb-4">{{ selected_category }}</h5>
             </div>
             <div class="info-card">
                 <!-- Tabbla con los datos y presupuestos por sub-categorías -->
@@ -100,23 +100,26 @@
                             <td style="width: 33.3%;">
                                 <div class="cont-btns-acciones">
                                     <form action="/cambiar_estado_sub_categoria">
+                                        <input type="hidden" name="category_name" value="{{ selected_category }}">
                                         <input type="hidden" name="subcategory_id" value="{{ subcategory['id'] }}">
                                         <button type="submit" class="bi bi-check-circle"
-                                            style="color: green; font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
-                                            title="Desactivar">
+                                            style="color: var(--green); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                            title="Desactivar" disabled>
                                         </button>
                                     </form>
                                     <form action="/edit_subcategory" method="POST">
+                                        <input type="hidden" name="category_name" value="{{ selected_category }}">
                                         <input type="hidden" name="subcategory_id" value="{{ subcategory['id'] }}">
                                         <button type="submit" class="bi bi-pencil-square"
-                                            style="color: blue; font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
-                                            title="Editar">
+                                            style="color: var(--blue); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                            title="Editar" disabled>
                                         </button>
                                     </form>
                                     <form action="/delete_subcategory" method="POST">
+                                        <input type="hidden" name="category_name" value="{{ selected_category }}">
                                         <input type="hidden" name="subcategory_id" value="{{ subcategory['id'] }}">
                                         <button type="submit" class="bi bi-trash3"
-                                            style="color: red; font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                            style="color: var(--red); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
                                             title="Eliminar">
                                         </button>
                                     </form>
@@ -140,7 +143,7 @@
             </div>
             {% else %}
             <div>
-                <h5 class="windows-name">Selecciona una categoría</h5>
+                <h5 class="windows-name pb-4">Selecciona una categoría</h5>
             </div>
             <div class="info-card">
 

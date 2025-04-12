@@ -13,7 +13,7 @@
             <h5 class="windows-name">Inicio</h5>
             <a href="{{ url_for('main.index') }}" class="direction-name">Inicio</a>
             <i class="bi bi-chevron-right direction-icon"></i>
-            <p class="direction-name">Familias</p>
+            <p class="direction-select">Familias</p>
         </div>
         <div class="col cont-top-buttons">
             <!-- Button to Open the Modal -->
@@ -90,5 +90,4 @@
 
 <!-- JavaScript personalizado por página -->
 {% block js %}
-<script src="{{ url_for('static', filename='js/swal-login-response.js') }}"></script>
 {% endblock %}

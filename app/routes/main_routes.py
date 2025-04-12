@@ -1,6 +1,7 @@
 from flask import Blueprint, session, redirect, render_template, request
 from app.models.family import Family
 from app.models.user import User
+from app.models.expenses import Expense
 from app.models.expense_category import ExpenseCategory
 from app.models.expense_subcategory import ExpenseSubcategory
 
@@ -53,7 +54,7 @@ def finanzas():
     family_id = user_response["family_selected_id"]
 
     # Obtener las categorías de egresos
-    all_categories_response = ExpenseCategory().get_select_data()
+    all_categories_response = ExpenseCategory(family_id=family_id).get_select_data()
     if not all_categories_response["success"]:
         return render_template('error.html', error=all_categories_response["error"])
     categories = all_categories_response["categories"]
@@ -64,7 +65,23 @@ def finanzas():
         return render_template('error.html', error=total_budget_response["error"])
     total_budget = total_budget_response["total_budget"]
 
-    return render_template('finanzas.html', user_login_data=user_login_data, categories=categories, total_budget=total_budget)
+    # Obtener el egreso total de la familia
+    total_expense_response = Expense(family_id=family_id).get_total_expense_by_family()
+    if not total_expense_response["success"]:
+        return render_template('error.html', error=total_expense_response["error"])
+    total_expense = total_expense_response["total_expense"]
+
+    # Obtener la diferencia entre el presupuesto y el gasto total
+    difference = float(total_budget - total_expense)
+
+    # Obtener los egresos de la familia
+    expenses_response = Expense(family_id=family_id).get_all_by_family()
+    if not expenses_response["success"]:
+        return render_template('error.html', error=expenses_response["error"])
+    expenses = expenses_response["expenses"]
+
+    return render_template('finanzas.html', user_login_data=user_login_data, categories=categories, total_budget=total_budget, 
+                           expenses=expenses, total_expense=total_expense, difference=difference)
 
 @main.route('/prestamos')
 def prestamos():

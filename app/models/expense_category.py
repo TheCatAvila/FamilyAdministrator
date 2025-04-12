@@ -21,7 +21,8 @@ class ExpenseCategory:
 							family_id = %s
                         GROUP BY 
                             ec.id, ec.name
-                        ORDER BY name ASC;
+                        ORDER BY 
+                            name ASC;
                     """
             with Database() as db:
                 values = (self.family_id,)
@@ -36,9 +37,18 @@ class ExpenseCategory:
     def get_select_data(self):
         """Obtiene los nombres de todas las categorías de egresos."""
         try:
-            query = "SELECT id, name FROM expense_category ORDER BY name ASC"
+            query = """SELECT 
+                            id, name 
+                        FROM 
+                            expense_category
+                        WHERE
+                            family_id = %s
+                        ORDER BY 
+                            name ASC
+                    """
             with Database() as db:
-                db.execute(query)
+                values = (self.family_id,)
+                db.execute(query, values)
                 categories = db.fetchall()
             
             return {"success": True, "categories": categories}

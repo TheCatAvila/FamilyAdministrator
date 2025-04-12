@@ -48,11 +48,13 @@ CREATE TABLE IF NOT EXISTS expense_subcategory (
 CREATE TABLE IF NOT EXISTS expenses (
     id INT AUTO_INCREMENT PRIMARY KEY,
     amount DECIMAL(10,2) NOT NULL,
+    date DATE NOT NULL,
     description VARCHAR(255),
-    category_id INT NOT NULL,
     subcategory_id INT,
     family_id INT NOT NULL,
-    FOREIGN KEY (category_id) REFERENCES expense_category(id) ON DELETE CASCADE,
+    user_id INT NOT NULL,
+    register_date DATETIME NOT NULL,
     FOREIGN KEY (subcategory_id) REFERENCES expense_subcategory(id) ON DELETE SET NULL,
-    FOREIGN KEY (family_id) REFERENCES family(id) ON DELETE CASCADE
+    FOREIGN KEY (family_id) REFERENCES family(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );

@@ -44,6 +44,65 @@
             {% endif %}
         {% endfor %}
     </div>
+    <div class="row gx-0">
+        <div class="col">
+            <div>
+                <h5 class="windows-name pb-4">Integrantes de la familia</h2>
+            </div>
+            <div class="info-card">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for expense in expenses %}
+                        <tr>
+                            <td>${{ "{:,.0f}".format(expense['amount']) | replace(",", ".") }}</td>
+                            <td>{{ expense['date'] }}</td>
+                            <td>{{ expense['subcategory_name'] }}</td>
+                            <td style="width: 33.3%;">
+                                <div class="cont-btns-acciones">
+                                    <form action="/edit_subcategory" method="POST">
+                                        <input type="hidden" name="category_name" value="">
+                                        <input type="hidden" name="subcategory_id" value="">
+                                        <button type="submit" class="bi bi-pencil-square"
+                                            style="color: var(--blue); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                            title="Editar" disabled>
+                                        </button>
+                                    </form>
+                                    <form action="/delete_subcategory" method="POST">
+                                        <input type="hidden" name="category_name" value="">
+                                        <input type="hidden" name="subcategory_id" value="">
+                                        <button type="submit" class="bi bi-trash3"
+                                            style="color: var(--red); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                            title="Eliminar">
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="card-footer" style="height:auto; width: 100%">
+
+                    <button class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#subcategory">Agregar</button>
+
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal para registrar egreso -->

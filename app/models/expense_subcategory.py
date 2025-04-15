@@ -61,13 +61,29 @@ class ExpenseSubcategory:
         try:
             query = "INSERT INTO expense_subcategory (name, budget, category_id) VALUES (%s, %s, %s)"
             values = (self.name, self.budget, self.category_id)
-            print("Valores a insertar: ", values)
 
             with Database() as db:
                 db.execute(query, values)
                 db.commit()
 
             return {"success": True, "message": "Subcategoría creada exitosamente."}
+        
+        except Exception as e:
+            return {"success": False, "error": f"Error inesperado: {e}"}
+    
+    def edit(self):
+        """Edita subcategoría de egresos."""
+        try:
+            query = """UPDATE expense_subcategory
+                        SET name = %s, budget = %s
+                        WHERE id = %s"""
+            values = (self.name, self.budget, self.id)
+
+            with Database() as db:
+                db.execute(query, values)
+                db.commit()
+
+            return {"success": True, "message": "Subcategoría actualizada exitosamente."}
         
         except Exception as e:
             return {"success": False, "error": f"Error inesperado: {e}"}

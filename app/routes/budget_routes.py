@@ -58,10 +58,16 @@ def add_subcategory():
 def edit_subcategory():
     if request.method == 'POST':
         # Obtener los datos del formulario
-        subcategory_id = request.form['subcategory_id']
-        #ExpenseSubcategory(name=category_name, category_id=1).create_subcategory()
+        category_name = request.form['category_name']
+        subcategory_id = request.form['edit_subcategory_id']
+        subcategory_name = request.form['edit_subcategory_name']
+        subcategory_budget = request.form['edit_subcategory_budget']
+        # Formatear datos recibidos
+        budget = subcategory_budget.replace(".", "")
+
+        ExpenseSubcategory(id=subcategory_id, name=subcategory_name, budget=budget).edit()
         
-        return redirect('/finanzas/presupuesto')
+        return redirect(f'/finanzas/presupuesto/{category_name}')
 
 @budget.route('/delete_subcategory', methods=['POST'])
 def delete_subcategory():

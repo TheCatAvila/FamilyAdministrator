@@ -99,6 +99,7 @@
                             <td>${{ "{:,.0f}".format(subcategory['budget']) | replace(",", ".") }}</td>
                             <td style="width: 33.3%;">
                                 <div class="cont-btns-acciones">
+                                    <!-- Botón para cambiar el estado de la subcategoría -->
                                     <form action="/cambiar_estado_sub_categoria">
                                         <input type="hidden" name="category_name" value="{{ selected_category }}">
                                         <input type="hidden" name="subcategory_id" value="{{ subcategory['id'] }}">
@@ -107,15 +108,17 @@
                                             title="Desactivar" disabled>
                                         </button>
                                     </form>
-                                    <form action="/edit_subcategory" method="POST">
-                                        <input type="hidden" name="category_name" value="{{ selected_category }}">
-                                        <input type="hidden" name="subcategory_id" value="{{ subcategory['id'] }}">
-                                        <button type="submit" class="bi bi-pencil-square"
-                                            style="color: var(--blue); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
-                                            title="Editar" disabled>
-                                        </button>
-                                    </form>
-                                    <form action="/delete_subcategory" method="POST">
+                                    <!-- Botón para editar la subcategoría -->
+                                    <button type="button" class="bi bi-pencil-square"
+                                        style="color: var(--blue); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                        data-bs-toggle="modal" data-bs-target="#editSubcategory"
+                                        data-subcategory-id="{{ subcategory['id'] }}"
+                                        data-subcategory-name="{{ subcategory['name'] }}"
+                                        data-subcategory-budget="{{ subcategory['budget'] | replace('.', '') }}"
+                                        title="Editar">
+                                    </button>
+                                    <!-- Botón para eliminar la subcategoría -->
+                                    <form class="delete-form" action="/delete_subcategory" method="POST">
                                         <input type="hidden" name="category_name" value="{{ selected_category }}">
                                         <input type="hidden" name="subcategory_id" value="{{ subcategory['id'] }}">
                                         <button type="submit" class="bi bi-trash3"
@@ -240,9 +243,58 @@
         </div>
     </div>
 </div>
+<!-- Modal para editar una subcategoría -->
+<div class="modal fade" id="editSubcategory">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="egresoForm" action="/edit_subcategory" method="POST">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Editar subcategoría</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+
+                    <div class="cont-label-input">
+                        <label for="edit_subcategory_name">Nombre subcategoría</label>
+                        <input type="text" id="edit_subcategory_name" name="edit_subcategory_name" required>
+                        <span class="error" id="montoError"></span>
+                    </div>
+                    <div class="cont-label-input">
+                        <label for="edit_subcategory_budget">Presupuesto subcategoría</label>
+                        <input type="text" id="edit_subcategory_budget" name="edit_subcategory_budget" oninput="formatMonto(this)" required>
+                        <span class="error" id="montoError"></span>
+                    </div>
+
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <input type="hidden" name="edit_subcategory_id" id="edit_subcategory_id">
+                    <input type="hidden" name="category_name" value="{{ selected_category }}">
+                    <button type="submit" class="btn btn-blue">Actualizar</button>
+                </div>
+            </form>
+
+            <style>
+                .error {
+                    color: red;
+                    font-size: 0.875em;
+                    display: block;
+                    margin-top: 5px;
+                }
+            </style>
+
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 <!-- JavaScript personalizado por página -->
 {% block js %}
 <script src="{{ url_for('static', filename='js/add-egreso-form.js') }}"></script>
+<script src="{{ url_for('static', filename='js/swal/delete-form.js') }}"></script>
+<script src="{{ url_for('static', filename='js/from-records-to-modals.js') }}"></script>
 {% endblock %}

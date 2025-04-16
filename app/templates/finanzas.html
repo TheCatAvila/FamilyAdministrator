@@ -37,14 +37,14 @@
                     {% else %}
                     <p class="card-data">$0</p>
                     {% endif %}
-                    <div class="percent-div">
+                    <!-- <div class="percent-div">
                         <p class="percent-data">
                             <span class="span-percent-data">
                                 <i class="bi bi-graph-up-arrow"></i>
                                 50.3
                             </span>%
                         </p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -85,11 +85,7 @@
                 <p class="card-top-info">Egresos Vs Presupuesto</p>
                 <div class="data-and-percent">
                     {% if difference %}
-                        {% if difference > 0 %}
-                        <p class="card-data">+${{ "{:,.0f}".format(difference) | replace(",", ".") }}</p>
-                        {% else %}
-                        <p class="card-data">-${{ "{:,.0f}".format(difference) | replace(",", ".") }}</p>
-                        {% endif %}
+                        <p class="card-data">${{ "{:,.0f}".format(difference) | replace(",", ".") }}</p>
                     {% else %}
                     <p class="card-data">$0</p>
                     {% endif %}
@@ -122,17 +118,21 @@
                             <td>{{ expense['category_name'] }}</td>
                             <td style="width: 33.3%;">
                                 <div class="cont-btns-acciones">
-                                    <form action="/edit_subcategory" method="POST">
-                                        <input type="hidden" name="category_name" value="">
-                                        <input type="hidden" name="subcategory_id" value="">
-                                        <button type="submit" class="bi bi-pencil-square"
-                                            style="color: var(--blue); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
-                                            title="Editar" disabled>
-                                        </button>
-                                    </form>
-                                    <form action="/delete_subcategory" method="POST">
-                                        <input type="hidden" name="category_name" value="">
-                                        <input type="hidden" name="subcategory_id" value="">
+                                    <!-- Botón para editar la egreso -->
+                                    <button type="button" class="bi bi-pencil-square"
+                                        style="color: var(--blue); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                        data-bs-toggle="modal" data-bs-target="#editarEgreso"
+                                        data-expense-id="{{ expense['id'] }}"
+                                        data-expense-date="{{ expense['date'] }}"
+                                        data-expense-category="{{ expense['category_id'] }}"
+                                        data-expense-subcategory="{{ expense['subcategory_id'] }}"
+                                        data-expense-amount="{{ expense['amount'] | replace('.', '') }}"
+                                        data-expense-description="{{ expense['description'] }}"
+                                        title="Editar">
+                                    </button>
+                                    <!-- Botón para eliminar egreso -->
+                                    <form class="delete-form" action="/delete_expense" method="POST">
+                                        <input type="hidden" name="expense_id" value="{{ expense['id'] }}">
                                         <button type="submit" class="bi bi-trash3"
                                             style="color: var(--red); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
                                             title="Eliminar">
@@ -215,11 +215,96 @@
         </div>
     </div>
 </div>
+<!-- Modal para editar egreso -->
+<div class="modal fade" id="editarEgreso">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="egresoForm" action="/edit_expense" method="POST">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Editar egreso</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div class="cont-label-input">
+                        <label for="edit_expense_date">Fecha</label>
+                        <input type="date" id="edit_expense_date" name="edit_expense_date" required>
+                        <span class="error" id="fechaError"></span>
+                    </div>
+                    <div class="cont-50-50">
+                        <div class="cont-label-input">
+                            <label for="edit_categoria">Categoría</label>
+                            <select id="edit_categoria" required>
+                                <option value="0">Seleccione una categoría</option>
+                                {% for category in categories %}
+                                <option value="{{ category['id'] }}">{{ category['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                            <span class="error" id="categoriaError"></span>
+                        </div>
+                        <div class="cont-label-input">
+                            <label for="edit_subcategoria">Subcategoría</label>
+                            <select id="edit_subcategoria" name="edit_subcategoria" required></select>
+                            <span class="error" id="subcategoriaError"></span>
+                        </div>
+                    </div>
+                    <div class="cont-label-input">
+                        <label for="edit_monto">Monto</label>
+                        <input type="text" id="edit_monto" name="edit_expense_amount" oninput="formatMonto(this)" required>
+                        <span class="error" id="montoError"></span>
+                    </div>
+                    <div class="cont-label-input">
+                        <label for="edit_escription">Descripción <span>(Opcional)</span></label>
+                        <textarea id="edit_description" name="edit_expense_description" minlength="1"></textarea>
+                        <span class="error" id="descripcionError"></span>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <input type="hidden" id="edit_expense_id" name="edit_expense_id">
+                    <button type="submit" class="btn btn-blue">Actualizar</button>
+                </div>
+            </form>
+
+            <style>
+                .error {
+                    color: red;
+                    font-size: 0.875em;
+                    display: block;
+                    margin-top: 5px;
+                }
+            </style>
+
+        </div>
+    </div>
+</div>
 {% endblock %}   
 
 <!-- JavaScript personalizado por página -->
 {% block js %}
 <script src="{{ url_for('static', filename='js/add-egreso-form.js') }}"></script>
+<script src="{{ url_for('static', filename='js/swal/delete-form.js') }}"></script>
+<script src="{{ url_for('static', filename='js/from-records-to-modals.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const egresoModal = document.getElementById('registrarEgreso');
+    
+        if (egresoModal) {
+            egresoModal.addEventListener('show.bs.modal', function () {
+                const fechaInput = document.getElementById('fecha');
+    
+                if (fechaInput) {
+                    const hoy = new Date().toISOString().split("T")[0];
+                    fechaInput.value = hoy;
+                }
+            });
+        }
+    });
+    
+</script>
 <script>
     document.getElementById('categoria').addEventListener('change', function () {
         const categoriaId = this.value;
@@ -263,7 +348,4 @@
         subcategoriaSelect.disabled = (categoriaId === "0" || categoriaId === "");
     });
 </script>
-
-
-
 {% endblock %}

@@ -76,3 +76,30 @@ def add_expense():
         ).create()
     
     return redirect('/finanzas')
+
+@finance.route('/edit_expense', methods=['POST'])
+def edit_expense():
+    if request.method == 'POST':
+        # Obtener los datos del formulario
+        expense_id = request.form['edit_expense_id']
+        expense_date = request.form['edit_expense_date']
+        expense_subcategory = request.form['edit_subcategoria']
+        expense_amount = request.form['edit_expense_amount']
+        expense_description = request.form['edit_expense_description']
+        # Formatear datos recibidos
+        amount = expense_amount.replace(".", "")
+
+        Expense(id=expense_id, date=expense_date, subcategory_id=expense_subcategory, 
+                amount=amount, description=expense_description).edit()
+        
+        return redirect(f'/finanzas')
+
+@finance.route('/delete_expense', methods=['POST'])
+def delete_expense():
+    if request.method == 'POST':
+        # Obtener los datos del formulario
+        expense_id = request.form['expense_id']
+
+        Expense(id=expense_id).delete()
+        
+        return redirect(f'/finanzas')

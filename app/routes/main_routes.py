@@ -70,9 +70,12 @@ def finanzas():
     if not total_expense_response["success"]:
         return render_template('error.html', error=total_expense_response["error"])
     total_expense = total_expense_response["total_expense"]
+    if total_expense is None:
+        total_expense = 0.0
 
     # Obtener la diferencia entre el presupuesto y el gasto total
-    difference = float(total_budget - total_expense)
+    difference = float(total_budget) - float(total_expense)
+
 
     # Obtener los egresos de la familia
     expenses_response = Expense(family_id=family_id).get_all_by_family()
@@ -93,3 +96,14 @@ def prestamos():
         return redirect("/ingresar")
 
     return render_template('prestamos.html', user_login_data=user_login_data)
+
+@main.route('/quehaceres')
+def quehaceres():
+
+    # Verificar si el usuario está logueado y obtener sus datos de sesión
+    user_id = session.get("user_id")
+    user_login_data = User(id=user_id).get_login_data()
+    if not user_login_data:
+        return redirect("/ingresar")
+
+    return render_template('chores.html', user_login_data=user_login_data)

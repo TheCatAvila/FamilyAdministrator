@@ -45,7 +45,30 @@ class Expense:
         
         except Exception as e:
             return {"success": False, "error": f"Error inesperado: {e}"}
+            
+    def edit(self):
+        """Edita un egreso."""
+        try:
+            query = """UPDATE 
+                            expenses 
+                        SET 
+                            date = %s, 
+                            subcategory_id = %s, 
+                            amount = %s, 
+                            description = %s
+                        WHERE 
+                            id = %s"""
+            values = (self.date, self.subcategory_id, self.amount, self.description, self.id)
+
+            with Database() as db:
+                db.execute(query, values)
+                db.commit()
+
+            return {"success": True, "message": "Egreso editado exitosamente."}
         
+        except Exception as e:
+            return {"success": False, "error": f"Error inesperado: {e}"}
+    
     def delete(self):
         """Elimina un egreso."""
         try:
@@ -57,28 +80,6 @@ class Expense:
                 db.commit()
 
             return {"success": True, "message": "Egreso eliminado exitosamente."}
-        
-        except Exception as e:
-            return {"success": False, "error": f"Error inesperado: {e}"}
-    
-    def edit(self):
-        """Edita un egreso."""
-        try:
-            query = """UPDATE expenses 
-                        SET amount = %s, 
-                            description = %s, 
-                            date = %s, 
-                            subcategory_id = %s, 
-                            family_id = %s, 
-                            user_id = %s
-                        WHERE id = %s"""
-            values = (self.amount, self.description, self.date, self.subcategory_id, self.family_id, self.user_id, self.id)
-
-            with Database() as db:
-                db.execute(query, values)
-                db.commit()
-
-            return {"success": True, "message": "Egreso editado exitosamente."}
         
         except Exception as e:
             return {"success": False, "error": f"Error inesperado: {e}"}
@@ -96,6 +97,7 @@ class Expense:
                             e.user_id,
                             e.register_date,
                             es.name AS subcategory_name,
+                            ec.id AS category_id,
                             ec.name AS category_name
                         FROM 
                             expenses AS e

@@ -64,6 +64,8 @@ def finanzas():
     if not total_budget_response["success"]:
         return render_template('error.html', error=total_budget_response["error"])
     total_budget = total_budget_response["total_budget"]
+    if total_budget is None:
+        total_budget = 0.0
 
     # Obtener el egreso total de la familia
     total_expense_response = Expense(family_id=family_id).get_total_expense_by_family()

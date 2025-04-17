@@ -92,7 +92,7 @@
                 </table>
                 <div class="card-footer" style="height:auto; width: 100%">
 
-                    <button class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#subcategory">Agregar</button>
+                    <button class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#agregarMiembro">Agregar</button>
 
                     <ul class="pagination">
                         <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
@@ -105,7 +105,7 @@
     </div>
 </div>
 
-<!-- Modal para registrar egreso -->
+<!-- Modal para registrar crear una familia -->
 <div class="modal fade" id="crearFamilia">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -130,6 +130,55 @@
                 <!-- Modal Footer -->
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-blue">Crear</button>
+                </div>
+            </form>
+
+            <style>
+                .error {
+                    color: red;
+                    font-size: 0.875em;
+                    display: block;
+                    margin-top: 5px;
+                }
+            </style>
+
+        </div>
+    </div>
+</div>
+<!-- Modal para agregar un miembro a la familia seleccionada -->
+<div class="modal fade" id="agregarMiembro">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="egresoForm" action="/create_family" method="POST">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Agregar miembro</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+
+                    <div class="cont-label-input">
+                        <label for="new_member_email">Correo</label>
+                        <input type="email" id="new_member_email" name="new_member_email" required>
+                        <span class="error" id="montoError"></span>
+                    </div>
+
+                    <div class="cont-label-input">
+                        <label for="new_member_rol">Rol</label>
+                        <select name="new_member_rol" id="new_member_rol">
+                            <option value="">Admin</option>
+                            <option value="">Miembro</option>
+                        </select>
+                        <span class="error" id="montoError"></span>
+                    </div>
+
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-blue">Agregar</button>
                 </div>
             </form>
 

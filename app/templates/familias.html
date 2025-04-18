@@ -60,29 +60,38 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for expense in expenses %}
+                        {% for member in family_members %}
                         <tr>
-                            <td>${{ "{:,.0f}".format(expense['amount']) | replace(",", ".") }}</td>
-                            <td>{{ expense['date'] }}</td>
-                            <td>{{ expense['subcategory_name'] }}</td>
+                            <td>{{ member['user_name'] }} {{ member['user_lastname'] }}</td>
+                            <td>{{ member['user_email'] }}</td>
+                            <td>{{ member['role_name'] }}</td>
                             <td style="width: 33.3%;">
                                 <div class="cont-btns-acciones">
-                                    <form action="/edit_subcategory" method="POST">
+                                    <!-- <form action="/edit_subcategory" method="POST">
                                         <input type="hidden" name="category_name" value="">
                                         <input type="hidden" name="subcategory_id" value="">
                                         <button type="submit" class="bi bi-pencil-square"
                                             style="color: var(--blue); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
                                             title="Editar" disabled>
                                         </button>
-                                    </form>
-                                    <form action="/delete_subcategory" method="POST">
-                                        <input type="hidden" name="category_name" value="">
-                                        <input type="hidden" name="subcategory_id" value="">
+                                    </form> -->
+                                    {% if member['user_id'] != user_login_data['id'] %}
+                                    <form action="/remove_member" method="POST">
+                                        <input type="hidden" name="remove_member_family_id" value="{{ family_selected_id }}">
+                                        <input type="hidden" name="remove_member_id" value="{{ member['user_id'] }}">
                                         <button type="submit" class="bi bi-trash3"
                                             style="color: var(--red); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
                                             title="Eliminar">
                                         </button>
                                     </form>
+                                    {% else %}
+                                    <form>
+                                        <button type="submit" class="bi bi-trash3"
+                                            style="color: var(--dark-gray); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                            title="Eliminar" disabled>
+                                        </button>
+                                    </form>
+                                    {% endif %}
                                 </div>
 
                             </td>
@@ -143,13 +152,13 @@
             </style>
 
         </div>
-    </div>
+    </div> 
 </div>
 <!-- Modal para agregar un miembro a la familia seleccionada -->
 <div class="modal fade" id="agregarMiembro">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="egresoForm" action="/create_family" method="POST">
+            <form id="egresoForm" action="/add_member" method="POST">
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Agregar miembro</h4>
@@ -168,8 +177,9 @@
                     <div class="cont-label-input">
                         <label for="new_member_rol">Rol</label>
                         <select name="new_member_rol" id="new_member_rol">
-                            <option value="">Admin</option>
-                            <option value="">Miembro</option>
+                            {% for rol in family_roles %}
+                            <option value="{{ rol['id'] }}">{{ rol['name'] }}</option>
+                            {% endfor %}
                         </select>
                         <span class="error" id="montoError"></span>
                     </div>
@@ -178,6 +188,7 @@
 
                 <!-- Modal Footer -->
                 <div class="modal-footer">
+                    <input type="hidden" name="new_member_family_id" value="{{ family_selected_id }}">
                     <button type="submit" class="btn btn-blue">Agregar</button>
                 </div>
             </form>

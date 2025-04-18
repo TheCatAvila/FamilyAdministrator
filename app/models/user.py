@@ -45,7 +45,7 @@ class User:
         
     def get_login_data(self):
         """Obtiene los datos del usuario logueado."""
-        query = "SELECT name FROM users WHERE id = %s"
+        query = "SELECT id, name FROM users WHERE id = %s"
         values = (self.id,)
         
         with Database() as db:
@@ -64,6 +64,21 @@ class User:
                 family_selected_id = db.fetchone()
 
             return {"success": True, "family_selected_id": family_selected_id['family_selected_id']}
+        
+        except Exception as e:
+            return {"success": False, "error": f"Error inesperado: {e}"}
+        
+    def get_id_by_email(self):
+        """Obtiene el id del usuario usando su email."""
+        try:
+            query = "SELECT id FROM users WHERE email = %s"
+            values = (self.email,)
+            
+            with Database() as db:
+                db.execute(query, values)
+                user_id = db.fetchone()
+
+            return {"success": True, "user_id": user_id['id']}
         
         except Exception as e:
             return {"success": False, "error": f"Error inesperado: {e}"}

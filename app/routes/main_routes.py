@@ -38,7 +38,18 @@ def familias():
     user_response = User(id=user_id).get_family_selected_id()
     family_selected_id = user_response["family_selected_id"]
 
-    return render_template('familias.html', user_login_data=user_login_data, families=families, family_selected_id=family_selected_id)
+    user_response = Family(id=family_selected_id).get_members()
+    if not user_response["success"]:
+        return render_template('error.html', error=user_response["error"])
+    family_members = user_response["family_members"]
+
+    family_response = Family(id=family_selected_id).get_roles()
+    if not family_response["success"]:
+        return render_template('error.html', error=family_response["error"])
+    family_roles = family_response["family_roles"]
+
+    return render_template('familias.html', user_login_data=user_login_data, families=families, family_members=family_members, 
+                           family_selected_id=family_selected_id, family_roles=family_roles)
 
 @main.route('/finanzas')
 def finanzas():

@@ -13,15 +13,12 @@
             <h5 class="windows-name">Préstamos</h5>
             <a href="{{ url_for('main.index') }}" class="direction-name">Inicio</a>
             <i class="bi bi-chevron-right direction-icon"></i>
-            <p class="direction-name">Préstamos</p>
+            <p class="direction-select">Préstamos</p>
         </div>
         <div class="col cont-top-buttons">
             <!-- Button to Open the Modal -->
-            <a class="btn btn-category" href="{{ url_for('budget.presupuesto') }}">Gestionar presupuesto</a>
-            </button>
-            <!-- Button to Open the Modal -->
             <button type="button" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#registrarEgreso">
-                Registrar egreso
+                Registrar préstamo
             </button>
         </div>
     </div>
@@ -30,85 +27,103 @@
         <!-- CARD 1 -->
         <div class="col">
             <div class="info-card">
-                <p class="card-top-info">Total Egresos Mensual</p>
+                <p class="card-top-info">Créditos</p>
                 <div class="data-and-percent">
-                    <p class="card-data">$5.000</p>
-                    <div class="percent-div">
+                    {% if total_expense %}
+                    <p class="card-data">${{ "{:,.0f}".format(total_expense) | replace(",", ".") }}</p>
+                    {% else %}
+                    <p class="card-data">$0</p>
+                    {% endif %}
+                    <!-- <div class="percent-div">
                         <p class="percent-data">
                             <span class="span-percent-data">
                                 <i class="bi bi-graph-up-arrow"></i>
                                 50.3
                             </span>%
                         </p>
-                    </div>
+                    </div> -->
                 </div>
-                <p class="card-bottom-info">You made an extra 35.00 this year.</p>
             </div>
         </div>
         <!-- CARD 2 -->
         <div class="col">
             <div class="info-card">
-                <p class="card-top-info">Total Egresos Anual</p>
+                <p class="card-top-info">Deudas</p>
                 <div class="data-and-percent">
-                    <p class="card-data">$5.000</p>
-                    <div class="percent-div">
-                        <p class="percent-data">
-                            <span class="span-percent-data">
-                                <i class="bi bi-graph-up-arrow"></i>
-                                50.3
-                            </span>%
-                        </p>
-                    </div>
+                    {% if difference %}
+                        <p class="card-data">${{ "{:,.0f}".format(difference) | replace(",", ".") }}</p>
+                    {% else %}
+                    <p class="card-data">$0</p>
+                    {% endif %}
                 </div>
-                <p class="card-bottom-info">You made an extra 35.00 this year.</p>
             </div>
         </div>
         <!-- CARD 3 -->
         <div class="col">
             <div class="info-card">
-                <p class="card-top-info">Presupuesto Abril</p>
+                <p class="card-top-info">Créditos VS Deudas</p>
                 <div class="data-and-percent">
-                    <p class="card-data">$5.000</p>
-                    <div class="percent-div">
-                        <p class="percent-data">
-                            <span class="span-percent-data">
-                                <i class="bi bi-graph-up-arrow"></i>
-                                50.3
-                            </span>%
-                        </p>
-                    </div>
+                    {% if difference %}
+                        <p class="card-data">${{ "{:,.0f}".format(difference) | replace(",", ".") }}</p>
+                    {% else %}
+                    <p class="card-data">$0</p>
+                    {% endif %}
                 </div>
-                <p class="card-bottom-info">You made an extra 35.00 this year.</p>
-            </div>
-        </div>
-        <!-- CARD 4 -->
-        <div class="col">
-            <div class="info-card">
-                <p class="card-top-info">Egresos Vs Presupuesto</p>
-                <div class="data-and-percent">
-                    <p class="card-data">$5.000</p>
-                    <div class="percent-div">
-                        <p class="percent-data">
-                            <span class="span-percent-data">
-                                <i class="bi bi-graph-up-arrow"></i>
-                                50.3
-                            </span>%
-                        </p>
-                    </div>
-                </div>
-                <p class="card-bottom-info">You made an extra 35.00 this year.</p>
             </div>
         </div>
     </div>
     <div class="row gx-0">
         <div class="col">
-            <div class="info-card">
-                a
+            <div>
+                <h5 class="windows-name pb-4">Personas</h2>
             </div>
-        </div>
-        <div class="col">
             <div class="info-card">
-                a
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Fecha</th>
+                            <th>Detalle</th>
+                            <th>Categoría</th>
+                            <th>Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for expense in expenses %}
+                        <tr>
+                            <td>${{ "{:,.0f}".format(expense['amount']) | replace(",", ".") }}</td>
+                            <td>{{ expense['date'] }}</td>
+                            <td>{{ expense['subcategory_name'] }}</td>
+                            <td>{{ expense['category_name'] }}</td>
+                            <td style="width: 33.3%;">
+                                <div class="cont-btns-acciones">
+                                    <!-- Botón para editar la egreso -->
+                                    <button type="button" class="bi bi-pencil-square"
+                                        style="color: var(--blue); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                        data-bs-toggle="modal" data-bs-target="#editarEgreso"
+                                        data-expense-id="{{ expense['id'] }}"
+                                        data-expense-date="{{ expense['date'] }}"
+                                        data-expense-category="{{ expense['category_id'] }}"
+                                        data-expense-subcategory="{{ expense['subcategory_id'] }}"
+                                        data-expense-amount="{{ expense['amount'] | replace('.', '') }}"
+                                        data-expense-description="{{ expense['description'] }}"
+                                        title="Editar">
+                                    </button>
+                                    <!-- Botón para eliminar egreso -->
+                                    <form class="delete-form" action="/delete_expense" method="POST">
+                                        <input type="hidden" name="expense_id" value="{{ expense['id'] }}">
+                                        <button type="submit" class="bi bi-trash3"
+                                            style="color: var(--red); font-size: 20px; background: none; border: none; padding: 0; cursor: pointer;"
+                                            title="Eliminar">
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -118,7 +133,7 @@
 <div class="modal fade" id="registrarEgreso">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="egresoForm" action="" method="POST">
+            <form id="egresoForm" action="/add_expense" method="POST">
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Registrar egreso</h4>
@@ -129,27 +144,34 @@
                 <div class="modal-body">
                     <div class="cont-label-input">
                         <label for="fecha">Fecha</label>
-                        <input type="date" id="fecha" required>
+                        <input type="date" id="fecha" name="expense_date" required>
                         <span class="error" id="fechaError"></span>
                     </div>
-                    <div class="cont-label-input">
-                        <label for="categoria">Categoría</label>
-                        <select id="categoria" required>
-                            <option value="">Seleccione una opción</option>
-                            {% for category in categories %}
-                            <option value="{{ category['id'] }}">{{ category['name'] }}</option>
-                            {% endfor %}
-                        </select>
-                        <span class="error" id="categoriaError"></span>
+                    <div class="cont-50-50">
+                        <div class="cont-label-input">
+                            <label for="categoria">Categoría</label>
+                            <select id="categoria" required>
+                                <option value="0">Seleccione una categoría</option>
+                                {% for category in categories %}
+                                <option value="{{ category['id'] }}">{{ category['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                            <span class="error" id="categoriaError"></span>
+                        </div>
+                        <div class="cont-label-input">
+                            <label for="subcategoria">Subcategoría</label>
+                            <select id="subcategoria" name="subcategoria" required></select>
+                            <span class="error" id="subcategoriaError"></span>
+                        </div>
                     </div>
                     <div class="cont-label-input">
                         <label for="monto">Monto</label>
-                        <input type="text" id="monto" oninput="formatMonto(this)" required>
+                        <input type="text" id="monto" name="expense_amount" oninput="formatMonto(this)" required>
                         <span class="error" id="montoError"></span>
                     </div>
                     <div class="cont-label-input">
-                        <label for="descripcion">Descripción</label>
-                        <textarea id="descripcion" required minlength="5"></textarea>
+                        <label for="descripcion">Descripción <span>(Opcional)</span></label>
+                        <textarea id="descripcion" name="expense_description" minlength="1"></textarea>
                         <span class="error" id="descripcionError"></span>
                     </div>
                 </div>
@@ -172,9 +194,137 @@
         </div>
     </div>
 </div>
+<!-- Modal para editar egreso -->
+<div class="modal fade" id="editarEgreso">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="egresoForm" action="/edit_expense" method="POST">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Editar egreso</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div class="cont-label-input">
+                        <label for="edit_expense_date">Fecha</label>
+                        <input type="date" id="edit_expense_date" name="edit_expense_date" required>
+                        <span class="error" id="fechaError"></span>
+                    </div>
+                    <div class="cont-50-50">
+                        <div class="cont-label-input">
+                            <label for="edit_categoria">Categoría</label>
+                            <select id="edit_categoria" required>
+                                <option value="0">Seleccione una categoría</option>
+                                {% for category in categories %}
+                                <option value="{{ category['id'] }}">{{ category['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                            <span class="error" id="categoriaError"></span>
+                        </div>
+                        <div class="cont-label-input">
+                            <label for="edit_subcategoria">Subcategoría</label>
+                            <select id="edit_subcategoria" name="edit_subcategoria" required></select>
+                            <span class="error" id="subcategoriaError"></span>
+                        </div>
+                    </div>
+                    <div class="cont-label-input">
+                        <label for="edit_monto">Monto</label>
+                        <input type="text" id="edit_monto" name="edit_expense_amount" oninput="formatMonto(this)" required>
+                        <span class="error" id="montoError"></span>
+                    </div>
+                    <div class="cont-label-input">
+                        <label for="edit_escription">Descripción <span>(Opcional)</span></label>
+                        <textarea id="edit_description" name="edit_expense_description" minlength="1"></textarea>
+                        <span class="error" id="descripcionError"></span>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <input type="hidden" id="edit_expense_id" name="edit_expense_id">
+                    <button type="submit" class="btn btn-blue">Actualizar</button>
+                </div>
+            </form>
+
+            <style>
+                .error {
+                    color: red;
+                    font-size: 0.875em;
+                    display: block;
+                    margin-top: 5px;
+                }
+            </style>
+
+        </div>
+    </div>
+</div>
 {% endblock %}   
 
 <!-- JavaScript personalizado por página -->
 {% block js %}
 <script src="{{ url_for('static', filename='js/add-egreso-form.js') }}"></script>
+<script src="{{ url_for('static', filename='js/swal/delete-form.js') }}"></script>
+<script src="{{ url_for('static', filename='js/from-records-to-modals.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const egresoModal = document.getElementById('registrarEgreso');
+    
+        if (egresoModal) {
+            egresoModal.addEventListener('show.bs.modal', function () {
+                const fechaInput = document.getElementById('fecha');
+    
+                if (fechaInput) {
+                    const hoy = new Date().toISOString().split("T")[0];
+                    fechaInput.value = hoy;
+                }
+            });
+        }
+    });
+    
+</script>
+<script>
+    document.getElementById('categoria').addEventListener('change', function () {
+        const categoriaId = this.value;
+        const subcategoriaSelect = document.getElementById('subcategoria');
+
+        // Limpia todas las opciones anteriores
+        subcategoriaSelect.innerHTML = '';
+
+        // Si no se ha seleccionado una categoría válida (id = 0)
+        if (categoriaId === "0" || categoriaId === "") {
+            subcategoriaSelect.disabled = true;
+            return;
+        }
+
+        // Si se seleccionó una categoría válida
+        subcategoriaSelect.disabled = false;
+
+        fetch(`/get_subcategorias/${categoriaId}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach((subcat, index) => {
+                    const option = document.createElement('option');
+                    option.value = subcat.id;
+                    option.textContent = subcat.name;
+
+                    // Selecciona por defecto la primera subcategoría
+                    if (index === 0) {
+                        option.selected = true;
+                    }
+
+                    subcategoriaSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error cargando subcategorías:', error));
+    });
+
+    // Al cargar la página, verifica si hay que desactivar el select
+    window.addEventListener('DOMContentLoaded', () => {
+        const categoriaId = document.getElementById('categoria').value;
+        const subcategoriaSelect = document.getElementById('subcategoria');
+        subcategoriaSelect.disabled = (categoriaId === "0" || categoriaId === "");
+    });
+</script>
 {% endblock %}

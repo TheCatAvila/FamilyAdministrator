@@ -119,4 +119,4 @@ def quehaceres():
     if not user_login_data:
         return redirect("/ingresar")
 
-    return render_template('chores.html', user_login_data=user_login_data)
+    return render_template('quehaceres.html', user_login_data=user_login_data)

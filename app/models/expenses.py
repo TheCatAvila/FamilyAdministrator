@@ -1,4 +1,9 @@
 from app.database.db_connection import Database
+# TEMOPORAL
+import datetime
+now = datetime.datetime.now()
+year = now.year
+month = now.month
 
 class Expense:
     def __init__(self, id: int = None, amount: float = None, description: str = None, date: str = None, subcategory_id: int = None, family_id: int = None, user_id: int = None):
@@ -85,7 +90,7 @@ class Expense:
             return {"success": False, "error": f"Error inesperado: {e}"}
     
     def get_all_by_family(self):
-        """Obtiene todos los egresos de una familia."""
+        """Obtiene todos los egresos de una familia mensual."""
         try:
             query = """SELECT 
                             e.id, 
@@ -107,10 +112,12 @@ class Expense:
                             expense_category AS ec ON es.category_id = ec.id
                         WHERE 
                             e.family_id = %s
+                            AND YEAR(date) = %s 
+                            AND MONTH(date) = %s
                         ORDER BY 
                             e.date DESC"""
             with Database() as db:
-                values = (self.family_id,)
+                values = (self.family_id, year, month)
                 db.execute(query, values)
                 expenses = db.fetchall()
             
@@ -119,16 +126,18 @@ class Expense:
             return {"success": False, "error": f"Error inesperado: {e}"}
         
     def get_total_expense_by_family(self):
-        """Obtiene el total de egresos de una familia."""
+        """Obtiene el total de egresos de una familia mensual."""
         try:
             query = """SELECT 
                             SUM(amount) AS total_expense 
                         FROM 
                             expenses 
                         WHERE 
-                            family_id = %s"""
+                            family_id = %s
+                            AND YEAR(date) = %s 
+                            AND MONTH(date) = %s;"""
             with Database() as db:
-                values = (self.family_id,)
+                values = (self.family_id, year, month)
                 db.execute(query, values)
                 total_expense = db.fetchone()
             

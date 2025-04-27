@@ -30,7 +30,7 @@
         <!-- CARD 1 -->
         <div class="col">
             <div class="info-card">
-                <p class="card-top-info">Total Egresos Abril</p>
+                <p class="card-top-info">Total Egresos</p>
                 <div class="data-and-percent">
                     {% if total_expense %}
                     <p class="card-data">${{ "{:,.0f}".format(total_expense) | replace(",", ".") }}</p>
@@ -69,7 +69,7 @@
         <!-- CARD 3 -->
         <div class="col">
             <a class="info-card clickable-card" href="{{ url_for('finance.presupuesto') }}">
-                <p class="card-top-info">Presupuesto Abril</p>
+                <p class="card-top-info">Presupuesto</p>
                 <div class="data-and-percent">
                     {% if total_budget %}
                     <p class="card-data">${{ "{:,.0f}".format(total_budget) | replace(",", ".") }}</p>

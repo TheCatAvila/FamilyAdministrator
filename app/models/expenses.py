@@ -141,7 +141,7 @@ class Expense:
                 db.execute(query, values)
                 total_expense = db.fetchone()
             
-            return {"success": True, "total_expense": total_expense['total_expense']}
+            return {"success": True, "total_expense": total_expense['total_expense'], "year": year, "month": month}
         
         except Exception as e:
             return {"success": False, "error": f"Error inesperado: {e}"}

@@ -83,6 +83,8 @@ def finanzas():
     if not total_expense_response["success"]:
         return render_template('error.html', error=total_expense_response["error"])
     total_expense = total_expense_response["total_expense"]
+    year = total_expense_response["year"]
+    month = total_expense_response["month"]
     if total_expense is None:
         total_expense = 0.0
 
@@ -97,7 +99,7 @@ def finanzas():
     expenses = expenses_response["expenses"]
 
     return render_template('finanzas.html', user_login_data=user_login_data, categories=categories, total_budget=total_budget, 
-                           expenses=expenses, total_expense=total_expense, difference=difference)
+                           expenses=expenses, total_expense=total_expense, difference=difference, year=year, month=month)
 
 @main.route('/prestamos')
 def prestamos():
